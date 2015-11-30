@@ -1,0 +1,96 @@
+package how.as2js.codeDom
+{
+	public class CodeMember extends CodeObject
+	{
+		public static const TYPE_NULL:int = 0;//空
+		public static const TYPE_STRING:int = 1;//String
+		public static const TYPE_NUMBER:int = 3;//Number类型
+		public static const TYPE_OBJECT:int = 4;//对象类型
+		public var parent:CodeObject;//父成员
+		public var memberObject:CodeObject;//成员值，this[object]
+		public var memberString:String;//成员值，this["key"]
+		public var memberNumber:Number;//成员值，this[0]
+		public var type:int = TYPE_NULL;//成员类型
+		public var calc:int;//前后标识
+		public function CodeMember(name:String = null,member:CodeObject = null,num:Number = 0,parent:CodeObject = null)
+		{
+			if(name)
+			{
+				this.parent = parent;
+				this.memberString = name;
+				this.type = TYPE_STRING;	
+			}
+			else if(member)
+			{
+				this.parent = parent;
+				this.memberObject = member;
+				this.type = TYPE_OBJECT;	
+			}
+			else
+			{
+				this.parent = parent;
+				this.memberNumber = num;
+				this.type = TYPE_NUMBER;
+			}
+		}
+		override public function toES5(tabCount:int):String
+		{
+			var thisString:String = "";
+			if(!parent)
+			{
+				if(!owner.tempData.tempData.hasOwnProperty(memberString))
+				{
+					if(owner.tempData.thisTempData.hasOwnProperty(memberString))
+					{
+						thisString = "this.";	
+					}
+					else if(owner.tempData.staticTempData.hasOwnProperty(memberString))
+					{
+						thisString = owner.tempData.staticTempData[".this"]+".";
+					}
+				}
+			}
+			else
+			{
+				parent.owner = owner;	
+			}
+			var mem:Object;
+			if(this.type == TYPE_STRING)
+			{
+				mem = this.memberString;
+			}
+			else if(this.type == TYPE_OBJECT)
+			{
+				mem = this.memberObject;
+			}
+			else
+			{
+				mem = this.memberNumber;
+			}
+			if(calc == CALC.POST_DECREMENT)
+			{
+				mem = mem+"--";
+			}
+			else if(calc == CALC.PRE_DECREMENT)
+			{
+				mem = "--"+mem;
+			}
+			else if(calc == CALC.POST_INCREMENT)
+			{
+				mem = mem+"++";
+			}
+			else if(calc == CALC.PRE_INCREMENT)
+			{
+				mem = "++"+mem;
+			}
+			if(parent)
+			{
+				return parent.toES5(tabCount)+"."+mem;	
+			}
+			else
+			{
+				return thisString+mem+"";
+			}
+		}
+	}
+}

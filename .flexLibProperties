@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="how.as2js.Utils"/>
+    <classEntry path="how.as2js.codeDom.CALC"/>
+    <classEntry path="how.as2js.codeDom.CodeArray"/>
+    <classEntry path="how.as2js.codeDom.CodeAssign"/>
+    <classEntry path="how.as2js.codeDom.CodeCallFunction"/>
+    <classEntry path="how.as2js.codeDom.CodeClass"/>
+    <classEntry path="how.as2js.codeDom.CodeExecutable"/>
+    <classEntry path="how.as2js.codeDom.CodeFor"/>
+    <classEntry path="how.as2js.codeDom.CodeForSimple"/>
+    <classEntry path="how.as2js.codeDom.CodeForeach"/>
+    <classEntry path="how.as2js.codeDom.CodeFunction"/>
+    <classEntry path="how.as2js.codeDom.CodeIf"/>
+    <classEntry path="how.as2js.codeDom.CodeInstruction"/>
+    <classEntry path="how.as2js.codeDom.CodeMember"/>
+    <classEntry path="how.as2js.codeDom.CodeNew"/>
+    <classEntry path="how.as2js.codeDom.CodeObject"/>
+    <classEntry path="how.as2js.codeDom.CodeOperator"/>
+    <classEntry path="how.as2js.codeDom.CodeScriptObject"/>
+    <classEntry path="how.as2js.codeDom.CodeSuper"/>
+    <classEntry path="how.as2js.codeDom.CodeSwitch"/>
+    <classEntry path="how.as2js.codeDom.CodeTernary"/>
+    <classEntry path="how.as2js.codeDom.CodeThrow"/>
+    <classEntry path="how.as2js.codeDom.CodeTry"/>
+    <classEntry path="how.as2js.codeDom.CodeVariable"/>
+    <classEntry path="how.as2js.codeDom.CodeWhile"/>
+    <classEntry path="how.as2js.codeDom.temp.TempCase"/>
+    <classEntry path="how.as2js.codeDom.temp.TempCondition"/>
+    <classEntry path="how.as2js.codeDom.temp.TempData"/>
+    <classEntry path="how.as2js.codeDom.temp.TempOperator"/>
+    <classEntry path="how.as2js.compiler.LexState"/>
+    <classEntry path="how.as2js.compiler.ScriptLexer"/>
+    <classEntry path="how.as2js.compiler.ScriptParser"/>
+    <classEntry path="how.as2js.compiler.Token"/>
+    <classEntry path="how.as2js.compiler.TokenType"/>
+    <classEntry path="how.as2js.error.ParseError"/>
+    <classEntry path="how.as2js.error.StackInfo"/>
+    <classEntry path="how.as2js.runtime.Opcode"/>
+    <classEntry path="how.as2js.runtime.ToJavaScript"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
