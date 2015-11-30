@@ -34,7 +34,7 @@ package how.as2js.codeDom
 			if(packAge.length)
 			{
 				var packs:Array = packAge.split(".");
-				result = "var "+packs[0]+" = "+packs[0]+" || {};\n";
+				result = ""+packs[0]+" = "+packs[0]+" || {};\n";
 				if(packs.length > 1)
 				{
 					var pack:String = packs[0]+".";
