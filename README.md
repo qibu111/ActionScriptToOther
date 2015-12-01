@@ -2,7 +2,7 @@
 
 可以把ActionScript3.0代码转换成JavaScript代码，成功规避了JavaScript的this问题
 
-转换结果Demo：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo.as
+转换结果：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo.as 转换后 https://github.com/qibu111/ActionScriptToOther/blob/master/Demo.js
 
 ----------------------------------------------------------------------------------------------------------------------
 
