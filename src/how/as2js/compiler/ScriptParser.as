@@ -13,6 +13,7 @@ package how.as2js.compiler
 	import how.as2js.codeDom.CodeFunction;
 	import how.as2js.codeDom.CodeIf;
 	import how.as2js.codeDom.CodeInstruction;
+	import how.as2js.codeDom.CodeIsAs;
 	import how.as2js.codeDom.CodeMember;
 	import how.as2js.codeDom.CodeNew;
 	import how.as2js.codeDom.CodeObject;
@@ -503,6 +504,15 @@ package how.as2js.compiler
 							break;
 					}
 				}
+			}
+			var nextToken:Token = ReadToken();
+			if(nextToken.Type == TokenType.Is || nextToken.Type == TokenType.As)
+			{
+				ret = new CodeIsAs(ret,GetObject(),nextToken.Type);
+			}
+			else
+			{
+				UndoToken();
 			}
 			return ret;
 		}		

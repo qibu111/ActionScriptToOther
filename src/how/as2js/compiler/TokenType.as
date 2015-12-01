@@ -191,5 +191,9 @@ package how.as2js.compiler
 		public static var Identifier:int = 85;		
 		//结束
 		public static var Finished:int = 86;
+		//is
+		public static var Is:int = 87;
+		//as
+		public static var As:int = 88;		
 	}
 }

@@ -6,8 +6,6 @@
 
 ###暂不支持
 
-不支持is和as关键字
-
 不支持delete关键字
 
 不支持undefined关键字

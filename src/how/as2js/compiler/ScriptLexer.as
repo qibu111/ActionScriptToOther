@@ -657,6 +657,12 @@ package how.as2js.compiler
 								case "false":
 									tokenType = TokenType.Boolean;
 									break;
+								case "is":
+									tokenType = TokenType.Is;
+									break;
+								case "as":
+									tokenType = TokenType.As;
+									break;
 								default:
 									tokenType = TokenType.Identifier;
 									break;

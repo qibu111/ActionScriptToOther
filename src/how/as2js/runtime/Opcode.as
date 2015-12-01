@@ -42,5 +42,7 @@ package how.as2js.runtime
 		public static const NEW:int = 18;
 		//父类
 		public static const SUPER:int = 19;
+		//is as
+		public static const ISAS:int = 20;
 	}
 }
