@@ -27,7 +27,7 @@ package how.as2js.codeDom
 			tabCount++;
 			setTempData();
 			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = Class.extend"+(Config_ES5Convert.leftBraceNextLine?"\n":"")+
-				"({\n"+toImport(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
+				"({\n"+toImport(tabCount)+toBindFunction(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
 				+toStaticVariable(tabCount-1)+toStaticFunction(tabCount-1);
 		}
 		protected function toPackage(tabCount:int):String
@@ -58,9 +58,9 @@ package how.as2js.codeDom
 			{
 				var importItems:Array = imports[i].split('.');
 				tempData.thisTempData[importItems[importItems.length-1]] = null;
-				importString += getTab(tabCount)+importItems[importItems.length-1]+":"+imports[i]+",\n";
+				importString += getTab(tabCount+1)+"this."+importItems[importItems.length-1]+" = "+imports[i]+";\n";
 			}
-			return importString;
+			return getTab(tabCount)+"import:function()"+getLeftBrace(tabCount)+importString+getTab(tabCount)+"},\n";
 		}
 		protected function setTempData():void
 		{
@@ -137,7 +137,7 @@ package how.as2js.codeDom
 					functions[i].isCtor = functions[i].name==name;
 					if(functions[i].isCtor)
 					{
-						functions[i].bindString = toBindFunction(tabCount+1);
+						functions[i].insertString = toInsertFunction(tabCount+1);
 					}
 					var funName:String = functions[i].isCtor?"init":functions[i].name;
 					funName = functions[i].type == CodeFunction.TYPE_GET || functions[i].type == CodeFunction.TYPE_SET?"\""+funName+"\"":funName;
@@ -177,16 +177,23 @@ package how.as2js.codeDom
 		}
 		protected function toBindFunction(tabCount:int):String
 		{
-			var functionString:String = "";	
+			var bindString:String = "";	
 			for (var i:int = 0; i < functions.length; i++) 
 			{
 				var funName:String = functions[i].name;
 				if(functions[i].type == CodeFunction.TYPE_NORMAL && functions[i].name!=name)
 				{
-					functionString += getTab(tabCount)+"this."+funName+" = "+"this."+funName+".bind(this);\n";
+					bindString += getTab(tabCount+1)+"this."+funName+" = "+"this."+funName+".bind(this);\n";
 				}
 			}
-			return functionString;
+			return getTab(tabCount)+"binds:function()"+getLeftBrace(tabCount)+bindString+getTab(tabCount)+"},\n";
+		}
+		protected function toInsertFunction(tabCount:int):String
+		{
+			var insertString:String = "";
+			insertString += getTab(tabCount)+"this.binds();\n";
+			insertString += getTab(tabCount)+"this.import();\n";
+			return insertString;
 		}
 		protected function toGetSetFunction(tabCount:int):String
 		{

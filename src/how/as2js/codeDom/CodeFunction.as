@@ -17,7 +17,7 @@ package how.as2js.codeDom
 		private var params:Boolean;                       //参数个数
 		public var name:String;
 		public var isCtor:Boolean;//是否是构造函数
-		public var bindString:String = "";
+		public var insertString:String = "";
 		public function CodeFunction(strName:String,listParameters:Vector.<String>,listParameterTypes:Vector.<CodeMember>,listValues:Vector.<CodeObject>,executable:CodeExecutable,bParams:Boolean,IsStatic:Boolean,type:int)
 		{
 			this.name = strName;
@@ -42,7 +42,7 @@ package how.as2js.codeDom
 			{
 				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].toES5(0) + ";\n";
 			}
-			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+bindString+valuesString+executable.toES5(tabCount+1)+getTab(tabCount)+"}";
+			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.toES5(tabCount+1)+getTab(tabCount)+"}";
 		}
 		protected function toParam(tabCount:int):String
 		{
