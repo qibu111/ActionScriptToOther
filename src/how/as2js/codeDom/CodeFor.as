@@ -13,7 +13,7 @@ package how.as2js.codeDom
 		}
 		public function SetContextExecutable(blockExecutable:CodeExecutable):void
 		{
-			blockExecutable = blockExecutable;
+			this.blockExecutable = blockExecutable;
 		}
 		override public function toES5(tabCount:int):String
 		{

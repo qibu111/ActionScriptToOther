@@ -851,15 +851,13 @@ package how.as2js.compiler
 						if(ReadToken().Type == TokenType.In)
 						{
 							m_iNextToken = partIndex;
-							ParseForin(executable);	
+							ParseForin(executable);
+							return;
 						}
 					}
 				}
-				else
-				{
-					m_iNextToken = partIndex;
-					ParseFor_impl(executable);	
-				}
+				m_iNextToken = partIndex;
+				ParseFor_impl(executable);
 			}
 		}
 		

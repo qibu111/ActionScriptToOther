@@ -11,15 +11,16 @@ package how.demo
 			var a = "123";
 			trace(defValue);
 			if(1 as Number){}
-			for(var key:String in Object)
+			for(var i:Number=0;i<this.age;i++)
 			{
-				
-			}
-			for( ; ; )
-			{
+				trace("hello！");
 				continue;
 				Demo.stFunc(name,stValue,null);
 				nameLength = age;
+			}
+			for(var key:String in Object)
+			{
+				
 			}
 			var sss:int= 0;
 			egret.setTimeout(function a(){
