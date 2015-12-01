@@ -44,5 +44,7 @@ package how.as2js.runtime
 		public static const SUPER:int = 19;
 		//is as
 		public static const ISAS:int = 20;
+		//delete
+		public static const DELETE:int = 21;
 	}
 }

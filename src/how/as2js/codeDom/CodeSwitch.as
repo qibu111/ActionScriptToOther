@@ -23,7 +23,8 @@ package how.as2js.codeDom
 			{
 				for (var j:int = 0; j < cases[i].allow.length; j++) 
 				{
-					caseString += getTab(tabCount+1)+"case "+cases[i].allow[j]+":\n";
+					cases[i].allow[j].owner = owner;
+					caseString += getTab(tabCount+1)+"case "+cases[i].allow[j].toES5(tabCount)+":\n";
 				}
 				if(cases[i].executable)
 				{

@@ -5,6 +5,7 @@ package how.as2js.compiler
 	import how.as2js.codeDom.CodeAssign;
 	import how.as2js.codeDom.CodeCallFunction;
 	import how.as2js.codeDom.CodeClass;
+	import how.as2js.codeDom.CodeDelete;
 	import how.as2js.codeDom.CodeExecutable;
 	import how.as2js.codeDom.CodeFor;
 	import how.as2js.codeDom.CodeForSimple;
@@ -451,7 +452,7 @@ package how.as2js.compiler
 			return ret;
 		}
 		//获取一个Object
-		private function GetObject():CodeObject
+		private function GetObject(readColon:Boolean = true):CodeObject
 		{
 			var operateStack:Vector.<TempOperator> = new Vector.<TempOperator>();
 			var objectStack:Vector.<CodeObject> = new Vector.<CodeObject>();
@@ -480,7 +481,7 @@ package how.as2js.compiler
 				if (member.calc == CALC.NONE)
 				{
 					var token:Token = ReadToken();
-					if(token.Type == TokenType.Colon)//如果后面跟着个冒号
+					if(token.Type == TokenType.Colon && readColon)//如果后面跟着个冒号
 					{
 						ReadToken();
 						token = ReadToken();
@@ -568,6 +569,7 @@ package how.as2js.compiler
 			ReadLeftParenthesis();
 			var listParameters:Vector.<String> = new Vector.<String>();
 			var listParameterTypes:Vector.<CodeMember> = new Vector.<CodeMember>();
+			var listValues:Vector.<CodeObject> = new Vector.<CodeObject>();
 			var bParams:Boolean = false;
 			if (PeekToken().Type != TokenType.RightPar) 
 			{
@@ -588,7 +590,16 @@ package how.as2js.compiler
 					if (token.Type == TokenType.Colon)
 					{
 						ReadColon();
-						listParameterTypes.push(GetObject() as CodeMember);
+						var param:CodeObject = GetObject();
+						if(param is CodeMember)
+						{
+							listParameterTypes.push(param);
+						}
+						else if(param is CodeAssign)
+						{
+							listValues.push((param as CodeAssign).value);
+							listParameterTypes.push((param as CodeAssign).member);
+						}
 					}
 					else
 					{
@@ -622,7 +633,7 @@ package how.as2js.compiler
 			}
 			var executable:CodeExecutable = new CodeExecutable(CodeExecutable.Block_Function);
 			ParseStatementBlock(executable);
-			return new CodeFunction(strFunctionName,listParameters,listParameterTypes,executable,bParams,isStatic,scriptFunctionType);
+			return new CodeFunction(strFunctionName,listParameters,listParameterTypes,listValues,executable,bParams,isStatic,scriptFunctionType);
 		}		
 		//解析区域代码内容( {} 之间的内容)
 		private function ParseStatementBlock(executable:CodeExecutable,readLeftBrace:Boolean = true,finished:int = 4):void
@@ -708,6 +719,9 @@ package how.as2js.compiler
 					ParseFunctionDeclaration(false);
 					break;
 				case TokenType.SemiColon:
+					break;
+				case TokenType.Delete:
+					executable.addInstruction(new CodeInstruction(Opcode.DELETE, new CodeDelete(GetObject())));
 					break;
 				default:
 					throw new ParseError(token,"不支持的语法 ");
@@ -960,7 +974,7 @@ package how.as2js.compiler
 				var token:Token = ReadToken();
 				if (token.Type == TokenType.Case) {
 					
-					var vals:Vector.<Object> = new Vector.<Object>();
+					var vals:Vector.<CodeObject> = new Vector.<CodeObject>();
 					ParseCase(vals);
 					switchExecutable = new CodeExecutable(CodeExecutable.Block_Switch,executable);
 					ParseStatementBlock(switchExecutable, false, TokenType.Break);
@@ -983,17 +997,18 @@ package how.as2js.compiler
 			executable.addInstruction(new CodeInstruction(Opcode.CALL_SWITCH, ret));
 		}
 		//解析case
-		private function ParseCase(vals:Vector.<Object>):void
+		private function ParseCase(vals:Vector.<CodeObject>):void
 		{
-			var val:Token = ReadToken();
-			if (val.Type == TokenType.String || val.Type == TokenType.Number)
-			{
-				vals.push(val.Lexeme);
-			}
-			else
-			{
-				throw new ParseError(val,"case 语句 只支持 string和number类型");
-			}
+//			var val:Token = ReadToken();
+//			if (val.Type == TokenType.String || val.Type == TokenType.Number)
+//			{
+//				vals.push(val.Lexeme);
+//			}
+//			else
+//			{
+//				throw new ParseError(val,"case 语句 只支持 string和number类型");
+//			}
+			vals.push(GetObject(false));
 			ReadColon();
 			if (ReadToken().Type == TokenType.Case) 
 			{

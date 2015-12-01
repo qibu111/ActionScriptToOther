@@ -35,26 +35,7 @@ package how.as2js.codeDom
 			var v:String;
 			member.owner = owner;
 			value.owner = owner;
-			if(value is CodeScriptObject)
-			{
-				var obj:Object = (value as CodeScriptObject).object;
-				if(obj is Number)
-				{
-					v = parseInt((value as CodeScriptObject).object+"")+"";
-				}
-				else if(obj is String)
-				{
-					v = "\""+(value as CodeScriptObject).object+"\"";
-				}
-				else
-				{
-					v = value.toES5(tabCount);
-				}
-			}
-			else
-			{
-				v = value.toES5(tabCount);
-			}
+			v = value.toES5(tabCount);
 			return member.toES5(tabCount) + " "+type+" " + v;
 		}
 	}

@@ -663,6 +663,9 @@ package how.as2js.compiler
 								case "as":
 									tokenType = TokenType.As;
 									break;
+								case "delete":
+									tokenType = TokenType.Delete;
+									break;
 								default:
 									tokenType = TokenType.Identifier;
 									break;

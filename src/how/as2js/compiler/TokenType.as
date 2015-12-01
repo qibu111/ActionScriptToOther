@@ -195,5 +195,7 @@ package how.as2js.compiler
 		public static var Is:int = 87;
 		//as
 		public static var As:int = 88;		
+		//delete
+		public static var Delete:int = 89;		
 	}
 }

@@ -9,7 +9,16 @@ package how.as2js.codeDom
 		}
 		override public function toES5(tabCount:int):String
 		{
-			return object+"";
+			var result:String = "";
+			if(object is Number)
+			{
+				result = parseInt(object+"")+"";
+			}
+			else if(object is String)
+			{
+				result = "\""+object+"\"";
+			}
+			return result;
 		}
 	}
 }

@@ -8,7 +8,7 @@ package how.as2js.codeDom
 		override public function toES5(tabCount:int):String
 		{
 			obj.owner = owner;
-			return getTab(tabCount)+"throw " + obj.toES5(0);
+			return "throw " + obj.toES5(0);
 		}
 	}
 }

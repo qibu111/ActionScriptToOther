@@ -62,6 +62,7 @@ package how.as2js.codeDom
 				case Opcode.THROW: result += convertThrow(tabCount); break;
 				case Opcode.NEW: result += convertNew(tabCount); break;
 				case Opcode.SUPER: result += convertSuper(tabCount); break;
+				case Opcode.DELETE: result += convertDelete(tabCount); break;
 			}
 			return result;
 		}
@@ -148,7 +149,7 @@ package how.as2js.codeDom
 		protected function convertThrow(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
 		}
 		protected function convertNew(tabCount:int):String
 		{
@@ -156,6 +157,11 @@ package how.as2js.codeDom
 			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
 		}
 		protected function convertSuper(tabCount:int):String
+		{
+			operand0.owner = owner;
+			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+		}
+		protected function convertDelete(tabCount:int):String
 		{
 			operand0.owner = owner;
 			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
