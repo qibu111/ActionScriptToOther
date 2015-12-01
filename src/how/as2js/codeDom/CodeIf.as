@@ -17,7 +17,7 @@ package how.as2js.codeDom
 			If.executable.parent = owner;
 			If.executable.owner = owner;
 			If.executable.tempData = owner.tempData;
-			var result:String = getTab(tabCount)+"if("+If.allow.toES5(tabCount)+")\n"+getTab(tabCount)+"{\n"+If.executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
+			var result:String = getTab(tabCount)+"if("+If.allow.toES5(tabCount)+")"+getLeftBrace(tabCount)+If.executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
 			var elseifString:String = "";
 			if(ElseIf.length)
 			{
@@ -27,7 +27,7 @@ package how.as2js.codeDom
 					ElseIf[i].executable.parent = owner;
 					ElseIf[i].executable.owner = owner;
 					ElseIf[i].executable.tempData = owner.tempData;
-					elseifString += getTab(tabCount)+"else if("+ElseIf[i].allow.toES5(tabCount)+")\n"+getTab(tabCount)+"{\n"+ElseIf[i].executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
+					elseifString += getTab(tabCount)+"else if("+ElseIf[i].allow.toES5(tabCount)+")"+getLeftBrace(tabCount)+ElseIf[i].executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
 				}
 				
 			}
@@ -37,7 +37,7 @@ package how.as2js.codeDom
 				Else.executable.parent = owner;
 				Else.executable.owner = owner;
 				Else.executable.tempData = owner.tempData;
-				elseString = getTab(tabCount)+"else\n"+getTab(tabCount)+"{\n"+Else.executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
+				elseString = getTab(tabCount)+"else"+getLeftBrace(tabCount)+Else.executable.toES5(tabCount+1)+"\n"+getTab(tabCount)+"}\n";
 			}
 			result += elseifString;
 			result += elseString;

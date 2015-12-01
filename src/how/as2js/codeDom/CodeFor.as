@@ -43,7 +43,7 @@ package how.as2js.codeDom
 				blockExecutable.tempData = owner.tempData;
 			}
 			return getTab(tabCount)+"for(" + (beginExecutable?beginExecutable.toES5(0).replace(";\n",""):"") + ";" + (condition?condition.toES5(0):"") + ";" + (loopExecutable?loopExecutable.toES5(0).replace(";\n",""):"")
-				+ ")\n"+getTab(tabCount)+"{\n" + (blockExecutable?blockExecutable.toES5(tabCount+1):"") + getTab(tabCount)+"}";
+				+ ")"+getLeftBrace(tabCount) + (blockExecutable?blockExecutable.toES5(tabCount+1):"") + getTab(tabCount)+"}";
 		}
 	}
 }

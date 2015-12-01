@@ -42,7 +42,7 @@ package how.as2js.codeDom
 				def.executable.tempData = owner.tempData;
 				defaultString += def.executable.toES5(tabCount+2)+getTab(tabCount+2)+"break;\n";
 			}
-			return getTab(tabCount)+"switch("+condition.toES5(0)+")\n"+getTab(tabCount)+"{\n"+caseString+defaultString+"\n"+getTab(tabCount)+"}";
+			return getTab(tabCount)+"switch("+condition.toES5(0)+")"+getLeftBrace(tabCount)+caseString+defaultString+"\n"+getTab(tabCount)+"}";
 		}
 	}
 }

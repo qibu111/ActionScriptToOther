@@ -1,5 +1,6 @@
 package how.as2js.codeDom
 {
+	import how.as2js.Config_ES5Convert;
 	import how.as2js.error.StackInfo;
 
 	public class CodeObject
@@ -22,11 +23,25 @@ package how.as2js.codeDom
 		protected function getTab(tabCount:int):String
 		{
 			var tab:String = "";
-			for (var i:int = 0; i < tabCount; i++) 
+			if(!Config_ES5Convert.oneLine)
 			{
-				tab += "    ";
+				for (var i:int = 0; i < tabCount; i++) 
+				{
+					tab += Config_ES5Convert.tab;
+				}
 			}
 			return tab;
+		}
+		public function getLeftBrace(tabCount:int):String
+		{
+			if(Config_ES5Convert.leftBraceNextLine)
+			{
+				return Config_ES5Convert.nextLine+getTab(tabCount)+"{\n";
+			}
+			else
+			{
+				return "{\n";
+			}
 		}
 	}
 }

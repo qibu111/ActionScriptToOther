@@ -17,9 +17,9 @@ package how.as2js.codeDom
 				catchExecutable.parent = owner;
 				catchExecutable.owner = owner;
 				catchExecutable.tempData = owner.tempData;
-				catchString = "\n"+getTab(tabCount)+"catch("+identifier+")\n"+getTab(tabCount)+"{\n"+catchExecutable.toES5(tabCount+1)+getTab(tabCount)+"}";
+				catchString = "\n"+getTab(tabCount)+"catch("+identifier+")"+getLeftBrace(tabCount)+catchExecutable.toES5(tabCount+1)+getTab(tabCount)+"}";
 			}
-			return getTab(tabCount)+"try\n" + getTab(tabCount) + "{\n" +
+			return getTab(tabCount)+"try" + getLeftBrace(tabCount) +
 				tryExecutable.toES5(tabCount+1) + getTab(tabCount) + "}" + catchString;
 		}
 	}

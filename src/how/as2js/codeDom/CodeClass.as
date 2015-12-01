@@ -2,6 +2,7 @@ package how.as2js.codeDom
 {
 	import flash.utils.Dictionary;
 	
+	import how.as2js.Config_ES5Convert;
 	import how.as2js.codeDom.temp.TempData;
 	
 
@@ -25,7 +26,8 @@ package how.as2js.codeDom
 		{
 			tabCount++;
 			setTempData();
-			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = Class.extend\n({\n"+toImport(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
+			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = Class.extend"+(Config_ES5Convert.leftBraceNextLine?"\n":"")+
+				"({\n"+toImport(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
 				+toStaticVariable(tabCount-1)+toStaticFunction(tabCount-1);
 		}
 		protected function toPackage(tabCount:int):String

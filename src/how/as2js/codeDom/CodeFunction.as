@@ -35,7 +35,7 @@ package how.as2js.codeDom
 				executable.tempData = owner.tempData;	
 			}
 			executable.tempData.tempData = new Dictionary();
-			return "function "+name+"("+toParam(tabCount)+")\n"+getTab(tabCount)+"{\n"+bindString+executable.toES5(tabCount+1)+getTab(tabCount)+"}";
+			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+bindString+executable.toES5(tabCount+1)+getTab(tabCount)+"}";
 		}
 		protected function toParam(tabCount:int):String
 		{

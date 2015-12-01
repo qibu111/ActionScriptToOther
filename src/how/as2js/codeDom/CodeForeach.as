@@ -19,7 +19,7 @@ package how.as2js.codeDom
 				executable.owner = owner;
 				executable.tempData = owner.tempData;	
 			}
-			return getTab(tabCount)+"for each(var " + identifier + " in " + loopObject.toES5(0) + ")\n" + getTab(tabCount) + "{\n" +
+			return getTab(tabCount)+"for each(var " + identifier + " in " + loopObject.toES5(0) + ")" + getLeftBrace(tabCount) +
 				(executable?executable.toES5(tabCount+1):"") + getTab(tabCount) + "}";
 		}
 	}
