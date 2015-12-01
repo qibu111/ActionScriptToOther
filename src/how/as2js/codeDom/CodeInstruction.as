@@ -55,6 +55,7 @@ package how.as2js.codeDom
 				case Opcode.CALL_FOR: result += convertCallFor(tabCount); break;
 				case Opcode.CALL_FORSIMPLE: result += convertCallForSimple(tabCount); break;
 				case Opcode.CALL_FOREACH: result += convertCallForeach(tabCount); break;
+				case Opcode.CALL_FORIN: result += convertCallForin(tabCount); break;
 				case Opcode.CALL_WHILE: result += convertCallWhile(tabCount); break;
 				case Opcode.CALL_SWITCH: result += convertCallSwitch(tabCount); break;
 				case Opcode.CALL_TRY: result += convertTry(tabCount); break;
@@ -130,6 +131,11 @@ package how.as2js.codeDom
 			return operand0.toES5(tabCount)+"\n";
 		}
 		protected function convertCallForeach(tabCount:int):String
+		{
+			operand0.owner = owner;
+			return operand0.toES5(tabCount)+"\n";
+		}
+		protected function convertCallForin(tabCount:int):String
 		{
 			operand0.owner = owner;
 			return operand0.toES5(tabCount)+"\n";

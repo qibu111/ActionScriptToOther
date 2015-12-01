@@ -9,6 +9,7 @@ package how.as2js.compiler
 	import how.as2js.codeDom.CodeFor;
 	import how.as2js.codeDom.CodeForSimple;
 	import how.as2js.codeDom.CodeForeach;
+	import how.as2js.codeDom.CodeForin;
 	import how.as2js.codeDom.CodeFunction;
 	import how.as2js.codeDom.CodeIf;
 	import how.as2js.codeDom.CodeInstruction;
@@ -814,8 +815,27 @@ package how.as2js.compiler
 						}
 					}
 				}
-				m_iNextToken = partIndex;
-				ParseFor_impl(executable);
+				if(token.Type == TokenType.Var)
+				{
+					if(ReadToken().Type == TokenType.Identifier)
+					{
+						if(PeekToken().Type == TokenType.Colon)
+						{
+							ReadColon();
+							ReadIdentifier();
+						}
+						if(ReadToken().Type == TokenType.In)
+						{
+							m_iNextToken = partIndex;
+							ParseForin(executable);	
+						}
+					}
+				}
+				else
+				{
+					m_iNextToken = partIndex;
+					ParseFor_impl(executable);	
+				}
 			}
 		}
 		
@@ -870,6 +890,25 @@ package how.as2js.compiler
 			ParseStatementBlock(forEachExecutable);
 			ret.executable = forEachExecutable;
 			executable.addInstruction(new CodeInstruction(Opcode.CALL_FOREACH, ret));
+		}
+		//解析forin语句
+		private function ParseForin(executable:CodeExecutable):void
+		{
+			var ret:CodeForin = new CodeForin();
+			ReadVar();
+			ret.identifier = ReadIdentifier();
+			if(PeekToken().Type == TokenType.Colon)
+			{
+				ReadColon();
+				ReadIdentifier();
+			}
+			ReadIn();
+			ret.loopObject = GetObject();
+			ReadRightParenthesis();
+			var forEachExecutable:CodeExecutable = new CodeExecutable(CodeExecutable.Block_Foreach,executable);
+			ParseStatementBlock(forEachExecutable);
+			ret.executable = forEachExecutable;
+			executable.addInstruction(new CodeInstruction(Opcode.CALL_FORIN, ret));
 		}
 		//解析单纯for循环
 		private function ParseFor_Simple(executable:CodeExecutable,Identifier:String,obj:CodeObject):void
