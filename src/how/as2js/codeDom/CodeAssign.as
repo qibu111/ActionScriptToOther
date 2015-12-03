@@ -14,7 +14,7 @@ package how.as2js.codeDom
 			this.assignType = assignType;
 			super(breviary, line)
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var type:String;
 			switch (assignType)
@@ -35,8 +35,8 @@ package how.as2js.codeDom
 			var v:String;
 			member.owner = owner;
 			value.owner = owner;
-			v = value.toES5(tabCount);
-			return member.toES5(tabCount) + " "+type+" " + v;
+			v = value.out(tabCount);
+			return member.out(tabCount) + " "+type+" " + v;
 		}
 	}
 }

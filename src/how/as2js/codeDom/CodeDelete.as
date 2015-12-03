@@ -7,10 +7,10 @@ package how.as2js.codeDom
 		{
 			this.deleteObject = deleteObject;
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			deleteObject.owner = owner;
-			return "delete " + deleteObject.toES5(tabCount);	
+			return "delete " + deleteObject.out(tabCount);	
 		}
 	}
 }

@@ -13,17 +13,17 @@ package how.as2js.codeDom
 			this.rightObject = rightObject;
 			this.type = type;
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			leftObject.owner = owner;
 			rightObject.owner = owner;
 			if(type == TokenType.Is)
 			{
-				return leftObject.toES5(0) + " instanceof " + rightObject.toES5(0);
+				return leftObject.out(0) + " instanceof " + rightObject.out(0);
 			}
 			else
 			{
-				return "("+leftObject.toES5(0) + " instanceof " + rightObject.toES5(0)+")?"+leftObject.toES5(0)+":null)";
+				return "("+leftObject.out(0) + " instanceof " + rightObject.out(0)+")?"+leftObject.out(0)+":null)";
 			}
 		}
 	}

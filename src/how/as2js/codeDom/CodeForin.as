@@ -10,7 +10,7 @@ package how.as2js.codeDom
 		{
 			
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			loopObject.owner = owner;
 			if(executable)
@@ -19,8 +19,8 @@ package how.as2js.codeDom
 				executable.owner = owner;
 				executable.tempData = owner.tempData;	
 			}
-			return getTab(tabCount)+"for(var " + identifier + " in " + loopObject.toES5(0) + ")" + getLeftBrace(tabCount) +
-				executable.toES5(tabCount+1) + getTab(tabCount) + "}";
+			return getTab(tabCount)+"for(var " + identifier + " in " + loopObject.out(0) + ")" + getLeftBrace(tabCount) +
+				executable.out(tabCount+1) + getTab(tabCount) + "}";
 		}
 	}
 }

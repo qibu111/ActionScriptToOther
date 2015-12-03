@@ -6,10 +6,10 @@ package how.as2js.codeDom
 		public function CodeNew()
 		{
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			newObject.owner = owner;
-			return "new " + newObject.toES5(tabCount);
+			return "new " + newObject.out(tabCount);
 		}
 	}
 }

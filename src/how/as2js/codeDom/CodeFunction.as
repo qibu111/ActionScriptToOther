@@ -17,7 +17,6 @@ package how.as2js.codeDom
 		private var params:Boolean;                       //参数个数
 		public var name:String;
 		public var isCtor:Boolean;//是否是构造函数
-		public var insertString:String = "";
 		public function CodeFunction(strName:String,listParameters:Vector.<String>,listParameterTypes:Vector.<CodeMember>,listValues:Vector.<CodeObject>,executable:CodeExecutable,bParams:Boolean,IsStatic:Boolean,type:int)
 		{
 			this.name = strName;
@@ -30,7 +29,7 @@ package how.as2js.codeDom
 			this.parameterCount = listParameters.length;
 			this.params = bParams;
 		}
-		override public function toES5(tabCount:int):String
+		override public function outJS(tabCount:int):String
 		{
 			if(owner)
 			{
@@ -40,9 +39,23 @@ package how.as2js.codeDom
 			var valuesString:String = "";
 			for (var i:int = 0; i < listValues.length; i++)
 			{
-				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].toES5(0) + ";\n";
+				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].out(0) + ";\n";
 			}
-			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.toES5(tabCount+1)+getTab(tabCount)+"}";
+			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.out(tabCount+1)+getTab(tabCount)+"}";
+		}
+		override public function outEgret(tabCount:int):String
+		{
+			if(owner)
+			{
+				executable.tempData = owner.tempData;	
+			}
+			executable.tempData.tempData = new Dictionary();
+			var valuesString:String = "";
+			for (var i:int = 0; i < listValues.length; i++)
+			{
+				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].outEgret(0) + ";\n";
+			}
+			return "function "+(isCtor?name:"")+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.outEgret(tabCount+1)+getTab(tabCount)+"}";
 		}
 		protected function toParam(tabCount:int):String
 		{

@@ -15,7 +15,7 @@ package how.as2js.codeDom
 		{
 			this.blockExecutable = blockExecutable;
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			if(beginExecutable)
 			{
@@ -42,8 +42,8 @@ package how.as2js.codeDom
 				blockExecutable.owner = owner;
 				blockExecutable.tempData = owner.tempData;
 			}
-			return getTab(tabCount)+"for(" + (beginExecutable?beginExecutable.toES5(0).replace(";\n",""):"") + ";" + (condition?condition.toES5(0):"") + ";" + (loopExecutable?loopExecutable.toES5(0).replace(";\n",""):"")
-				+ ")"+getLeftBrace(tabCount) + (blockExecutable?blockExecutable.toES5(tabCount+1):"") + getTab(tabCount)+"}";
+			return getTab(tabCount)+"for(" + (beginExecutable?beginExecutable.out(0).replace(";\n",""):"") + ";" + (condition?condition.out(0):"") + ";" + (loopExecutable?loopExecutable.out(0).replace(";\n",""):"")
+				+ ")"+getLeftBrace(tabCount) + (blockExecutable?blockExecutable.out(tabCount+1):"") + getTab(tabCount)+"}";
 		}
 	}
 }

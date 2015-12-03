@@ -39,7 +39,7 @@ package how.as2js.codeDom
 			this._value = value;
 		}
 		
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var result:String = "";
 			switch (opcode)
@@ -75,7 +75,7 @@ package how.as2js.codeDom
 			{
 				nextInstruction._operand0.owner = owner;
 				owner.currentIndex++;
-				return getTab(tabCount)+"var "+nextInstruction._operand0.toES5(0)+";\n";
+				return getTab(tabCount)+"var "+nextInstruction._operand0.out(0)+";\n";
 			}
 			else
 			{
@@ -85,33 +85,33 @@ package how.as2js.codeDom
 		protected function convertResolve(tabCount:int):String
 		{
 			operand0.owner = owner;
-			var result:String = getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			var result:String = getTab(tabCount)+operand0.out(tabCount)+";\n";
 			return result;
 		}
 		protected function convertRet(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+"return "+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+"return "+operand0.out(tabCount)+";\n";
 		}
 		protected function convertCallFunction(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+operand0.out(tabCount)+";\n";
 		}
 		protected function convertCallIf(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertCallFor(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertCallForSimple(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertContinue(tabCount:int):String
 		{
@@ -124,47 +124,47 @@ package how.as2js.codeDom
 		protected function convertCallWhile(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertCallSwitch(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertCallForeach(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertCallForin(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertTry(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return operand0.toES5(tabCount)+"\n";
+			return operand0.out(tabCount)+"\n";
 		}
 		protected function convertThrow(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+operand0.out(tabCount)+";\n";
 		}
 		protected function convertNew(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+operand0.out(tabCount)+";\n";
 		}
 		protected function convertSuper(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+operand0.out(tabCount)+";\n";
 		}
 		protected function convertDelete(tabCount:int):String
 		{
 			operand0.owner = owner;
-			return getTab(tabCount)+operand0.toES5(tabCount)+";\n";
+			return getTab(tabCount)+operand0.out(tabCount)+";\n";
 		}
 	}
 }

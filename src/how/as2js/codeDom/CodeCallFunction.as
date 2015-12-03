@@ -4,20 +4,35 @@ package how.as2js.codeDom
 	{
 		public var member:CodeObject;
 		public var parameters:Vector.<CodeObject>;
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			member.owner = owner;
 			var arg:String = "";
 			for (var i:int = 0; i < parameters.length; i++) 
 			{
 				parameters[i].owner = owner;
-				arg += parameters[i].toES5(tabCount);
+				arg += parameters[i].out(tabCount);
 				if(i != parameters.length - 1)
 				{
 					arg += ",";
 				}
 			}
-			return member.toES5(tabCount) + "(" + arg + ")";
+			return member.out(tabCount) + "(" + arg + ")";
+		}
+		override public function outEgret(tabCount:int):String
+		{
+			member.owner = owner;
+			var arg:String = "";
+			for (var i:int = 0; i < parameters.length; i++) 
+			{
+				parameters[i].owner = owner;
+				arg += parameters[i].outEgret(tabCount);
+				if(i != parameters.length - 1)
+				{
+					arg += ",";
+				}
+			}
+			return member.outEgret(tabCount) + insertString + "(" + arg + ")";
 		}
 	}
 }

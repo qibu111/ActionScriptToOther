@@ -45,10 +45,10 @@ package how.as2js.codeDom
 			this.right = Right;
 			this.operator = type;
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			left.owner = right.owner = owner;
-			return left.toES5(tabCount) + " "+operators[operator]+" " + right.toES5(tabCount);
+			return left.out(tabCount) + " "+operators[operator]+" " + right.out(tabCount);
 		}
 	}
 }

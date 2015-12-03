@@ -33,7 +33,7 @@ package how.as2js.codeDom
 				this.type = TYPE_NUMBER;
 			}
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var thisString:String = "";
 			if(!parent)
@@ -46,7 +46,11 @@ package how.as2js.codeDom
 					}
 					else if(owner.tempData.staticTempData.hasOwnProperty(memberString))
 					{
-						thisString = owner.tempData.staticTempData[".this"]+".";
+						return owner.tempData.staticTempData[".this"];
+					}
+					else if(owner.tempData.importTempData.hasOwnProperty(memberString))
+					{
+						return owner.tempData.importTempData[memberString];
 					}
 				}
 			}
@@ -63,9 +67,13 @@ package how.as2js.codeDom
 			{
 				mem = this.memberObject;
 			}
-			else
+			else if(this.type == TYPE_NUMBER)
 			{
 				mem = this.memberNumber;
+			}
+			else
+			{
+				mem = "";
 			}
 			if(calc == CALC.POST_DECREMENT)
 			{
@@ -85,7 +93,7 @@ package how.as2js.codeDom
 			}
 			if(parent)
 			{
-				return parent.toES5(tabCount)+"."+mem;	
+				return parent.out(tabCount)+"."+mem;	
 			}
 			else
 			{

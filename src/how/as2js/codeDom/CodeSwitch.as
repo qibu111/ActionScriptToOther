@@ -14,7 +14,7 @@ package how.as2js.codeDom
 		{
 			cases.push(con);
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			condition.owner = owner;
 			var caseString:String = "";
@@ -24,14 +24,14 @@ package how.as2js.codeDom
 				for (var j:int = 0; j < cases[i].allow.length; j++) 
 				{
 					cases[i].allow[j].owner = owner;
-					caseString += getTab(tabCount+1)+"case "+cases[i].allow[j].toES5(tabCount)+":\n";
+					caseString += getTab(tabCount+1)+"case "+cases[i].allow[j].out(tabCount)+":\n";
 				}
 				if(cases[i].executable)
 				{
 					cases[i].executable.parent = owner;
 					cases[i].executable.owner = owner;
 					cases[i].executable.tempData = owner.tempData;
-					caseString += cases[i].executable.toES5(tabCount+2);
+					caseString += cases[i].executable.out(tabCount+2);
 				}
 				caseString += getTab(tabCount+2)+"break;\n";
 			}
@@ -41,9 +41,9 @@ package how.as2js.codeDom
 				def.executable.parent = owner;
 				def.executable.owner = owner;
 				def.executable.tempData = owner.tempData;
-				defaultString += def.executable.toES5(tabCount+2)+getTab(tabCount+2)+"break;\n";
+				defaultString += def.executable.out(tabCount+2)+getTab(tabCount+2)+"break;\n";
 			}
-			return getTab(tabCount)+"switch("+condition.toES5(0)+")"+getLeftBrace(tabCount)+caseString+defaultString+"\n"+getTab(tabCount)+"}";
+			return getTab(tabCount)+"switch("+condition.out(0)+")"+getLeftBrace(tabCount)+caseString+defaultString+"\n"+getTab(tabCount)+"}";
 		}
 	}
 }

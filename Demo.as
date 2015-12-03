@@ -1,123 +1,62 @@
-package how.demo
+用法：
+var scriptLexer:ScriptLexer = new ScriptLexer("Demo.as");
+var scriptParser:ScriptParser = new ScriptParser(scriptLexer.GetTokens(),scriptLexer.GetBreviary());
+var codeClass:CodeClass;
+Config.modol = 0;
+try
 {
-	import flash.events.Event;
-	public class Demo extends TitleWindow
+	codeClass = scriptParser.Parse();	
+} 
+catch(error:Error) 
+{
+	if(error is ParseError)
 	{
-		static private var stValue:String = "3213";
-		private var nameLength:int = 321;
-		private var _name:String;
-		public function Demo(defValue0:int = 3,defValue1:String = "默认参数")
+		trace(error.message);	
+	}
+	else
+	{
+		var token:Token = scriptParser.PeekToken()
+		var msg:String = " Line:" + (token.SourceLine+1) + "  Column:" + token.SourceChar + "  Type:" + TokenType.getTypeName(token.Type) + "  value[" + token.Lexeme + "]    " + error.message;
+		trace(msg);
+	}
+}
+if(codeClass)
+{
+	trace(codeClass.out(1));//把Demo.as转换成egret模式的Demo.js
+}
+--------------------------------------------------------------------------------------------------------------------------------
+"Demo.as"：
+package
+{
+	import how.howMain;
+	public class Demo extends howMain
+	{
+		public function Demo()
 		{
-			var a = "123";
-			trace(defValue);
-			if(1 as Number){}
-			for(var i:Number=0;i<this.age;i++)
-			{
-				trace("hello！");
-				continue;
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-			}
-			for(var key:String in Object)
-			{
-				
-			}
-			var sss:int= 0;
-			egret.setTimeout(function a(){
-				
-			},this,300);
-			var sex = "男";
-			super();
+			super(LoadingUI,"gameResource.json",
+				["sound","public","disanfang","zhanghaodenglu","kuaisudenglu","loginScene"],960,640,base.Loadding);
 		}
-		private function test(aaa:int,bbb:int,...args):void
+		public function start(): void 
 		{
-			if(name == stValue && _name != null)
-			{
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-				nameLength = name;
-				_name = "忍者";
-				var type:String = "武士";   
-			}
-			else if(_name)
-			{
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-			}
-			else if(age)
-			{
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-			}
-			else if(name)
-			{
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-			}
-			else
-			{
-				Demo.stFunc(name,stValue,null);
-				nameLength = age;
-			}
-			var name = 2;
-			super.name = 3;
+			how.ComponentUtils.init("public.AlertSkin","public.DialogSkin",null,"public.NoticeSkin","public.LoaddingSkin");
+			AppModule.getInstance().initModule(LoginSceneModule,LoginSceneView,LoginSceneData);//模块初始化
+			new how.behaviour.Exec("Test.action",null,this).exec();
 		}
-		private function get name():String
-		{
-			return _name;
+		/**
+		 * 子类继承获取加载进度
+		 */
+		protected function onLoaddingProgress(percent: number,current: number,total: number): void {
+			var loadingUI: LoadingUI = this.loadingUI;
+			loadingUI.setProgress(percent,current,total);
 		}
-		private function set name(value:String):void
-		{
-			_name = value;
+		protected function onAllGroupComplete(): void {
+			var loadingUI: LoadingUI = this.loadingUI;
+			loadingUI.setText("正在初始化...");
 		}
-		static private function get age():String
-		{
-			return _age;
-		}
-		static private function set age(value:String):void
-		{
-			_age = value;
-		}
-		private static function stFunc():void
-		{
-			switch(this.stFunc())
-			{
-				case age:
-					trace(123);
-					break;
-				case stFunc():
-					trace(123);
-					break;
-				case 3:
-					trace(123);
-					break;
-				default:
-					trace(age);//静态方法内，会自动转成this
-					break;
-			}
-			while(true)
-			{
-				
-			}
-			for each(var i in obj)
-			{
-				trace(i);
-			}
-			try
-			{
-				var a = 1/0;
-			}
-			catch(e:Error)
-			{
-				trace(a);
-			}
-			var a = new Error("发生错误！").text();
-			throw new Error(123);
-			delete a.b;
-			if(a == undefined)
-			{
-				
-			}
+		public function onBack(): void {
+			how.Dialog.show("你确定要退出游戏？",function(): void {
+				how.Application.exit();
+			},null,this);
 		}
 	}
 }

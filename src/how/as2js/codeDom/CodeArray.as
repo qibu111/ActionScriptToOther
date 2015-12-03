@@ -3,15 +3,15 @@ package how.as2js.codeDom
 	public class CodeArray extends CodeObject
 	{
 		public var elements:Vector.<CodeObject> = new Vector.<CodeObject>();
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var result:String = "[";
 			for (var i:int = 0; i < elements.length; i++) 
 			{
-				result += elements[i].toES5(tabCount)+",";
+				result += elements[i].out(tabCount)+",";
 			}
 			result += "]";
-			return getTab(tabCount)+result;
+			return result;
 		}
 	}
 }

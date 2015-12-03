@@ -1,11 +1,14 @@
 package how.as2js.compiler
 {
+	import how.as2js.Config;
 	import how.as2js.codeDom.CALC;
 	import how.as2js.codeDom.CodeArray;
 	import how.as2js.codeDom.CodeAssign;
 	import how.as2js.codeDom.CodeCallFunction;
 	import how.as2js.codeDom.CodeClass;
+	import how.as2js.codeDom.CodeCocos;
 	import how.as2js.codeDom.CodeDelete;
+	import how.as2js.codeDom.CodeEgret;
 	import how.as2js.codeDom.CodeExecutable;
 	import how.as2js.codeDom.CodeFor;
 	import how.as2js.codeDom.CodeForSimple;
@@ -49,7 +52,18 @@ package how.as2js.compiler
 		//解析脚本
 		public function Parse():CodeClass
 		{
-			codeClass = new CodeClass();
+			if(Config.modol == 0)
+			{
+				codeClass = new CodeClass();
+			}
+			else if(Config.modol == 1)
+			{
+				codeClass = new CodeEgret();
+			}
+			else if(Config.modol == 2)
+			{
+				codeClass = new CodeCocos();
+			}
 			ReadPackage();
 			codeClass.packAge = GetPackageName();//包名
 			ReadLeftBrace();

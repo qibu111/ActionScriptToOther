@@ -40,7 +40,8 @@
     <classEntry path="how.as2js.error.StackInfo"/>
     <classEntry path="how.as2js.runtime.Opcode"/>
     <classEntry path="how.as2js.runtime.ToJavaScript"/>
-    <classEntry path="how.as2js.Config_ES5Convert"/>
+    <classEntry path="how.as2js.Config"/>
+    <classEntry path="how.as2js.codeDom.CodeEgret"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

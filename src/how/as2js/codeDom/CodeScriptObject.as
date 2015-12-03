@@ -7,7 +7,7 @@ package how.as2js.codeDom
 		{ 
 			object = obj; 
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var result:String = "";
 			if(object is Number)

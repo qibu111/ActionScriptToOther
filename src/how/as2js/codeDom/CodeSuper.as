@@ -3,7 +3,7 @@ package how.as2js.codeDom
 	public class CodeSuper extends CodeObject
 	{
 		public var superObject:CodeObject;
-		override public function toES5(tabCount:int):String
+		override public function outJS(tabCount:int):String
 		{
 			superObject.owner = owner;
 			if(superObject is CodeCallFunction)
@@ -12,7 +12,48 @@ package how.as2js.codeDom
 			}
 			else
 			{
-				var result:String = superObject.toES5(tabCount);
+				var result:String = superObject.out(tabCount);
+				if(result.substring(0,5) != "this.")
+				{
+					result = "this."+result;
+				}
+				return result;	
+			}
+		}
+		override public function outEgret(tabCount:int):String
+		{
+			superObject.owner = owner;
+			var result:String = "";
+			if(superObject is CodeCallFunction)
+			{
+				var member:CodeMember = (superObject as CodeCallFunction).member as CodeMember;
+				if(member && !member.parent)//说明是构造
+				{
+					result = "_super" + superObject.outEgret(tabCount);
+				}
+				else
+				{
+					result = "_super.prototype." + superObject.outEgret(tabCount) + ".call(this)";
+				}
+				return result;
+			}
+			else
+			{
+				insertString = ".call";
+				result = "_super." + superObject.outEgret(tabCount);
+				return result;	
+			}
+		}
+		override public function outCocos(tabCount:int):String
+		{
+			superObject.owner = owner;
+			if(superObject is CodeCallFunction)
+			{
+				return "this._super()";
+			}
+			else
+			{
+				var result:String = superObject.out(tabCount);
 				if(result.substring(0,5) != "this.")
 				{
 					result = "this."+result;

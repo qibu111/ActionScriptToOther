@@ -2,7 +2,7 @@ package how.as2js.codeDom
 {
 	import flash.utils.Dictionary;
 	
-	import how.as2js.Config_ES5Convert;
+	import how.as2js.Config;
 	import how.as2js.codeDom.temp.TempData;
 	
 
@@ -18,17 +18,28 @@ package how.as2js.codeDom
 		public var variables:Vector.<CodeVariable> = new Vector.<CodeVariable>();
 		public var functions:Vector.<CodeFunction> = new Vector.<CodeFunction>();							//父指令
 		public var tempData:TempData = new TempData();
-		public function js():String
-		{
-			return toES5(0);
-		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			tabCount++;
 			setTempData();
-			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = Class.extend"+(Config_ES5Convert.leftBraceNextLine?"\n":"")+
-				"({\n"+toImport(tabCount)+toBindFunction(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
+			return getBody(tabCount);
+		}
+		protected function getBody(tabCount:int):String
+		{
+			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = "+toParent()+".extend"+(Config.leftBraceNextLine?"\n":"")+
+				"({\n"+toBindFunction(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
 				+toStaticVariable(tabCount-1)+toStaticFunction(tabCount-1);
+		}
+		public function toParent():String
+		{
+			if(parent)
+			{
+				return tempData.importTempData[parent]?tempData.importTempData[parent]:parent;
+			}
+			else
+			{
+				return "Class";
+			}
 		}
 		protected function toPackage(tabCount:int):String
 		{
@@ -37,10 +48,10 @@ package how.as2js.codeDom
 			{
 				var packs:Array = packAge.split(".");
 				result = ""+packs[0]+" = "+packs[0]+" || {};\n";
+				tempData.thisTempData[packs[0]] = null;
 				if(packs.length > 1)
 				{
 					var pack:String = packs[0]+".";
-					tempData.thisTempData[packs[0]] = null;
 					for (var i:int = 1; i < packs.length; i++) 
 					{
 						result = getTab(tabCount)+result + pack+packs[i]+" = "+pack+packs[i]+" || {};\n";
@@ -53,19 +64,37 @@ package how.as2js.codeDom
 		protected function toImport(tabCount:int):String
 		{
 			var importString:String = "";
-			imports.push(packAge+"."+name);
+			if(packAge)
+			{
+				imports.push(packAge+"."+name);	
+			}
 			for (var i:int = 0; i < imports.length; i++) 
 			{
 				var importItems:Array = imports[i].split('.');
-				tempData.thisTempData[importItems[importItems.length-1]] = null;
-				importString += getTab(tabCount+1)+"this."+importItems[importItems.length-1]+" = "+imports[i]+";\n";
+				tempData.importTempData[importItems[importItems.length-1]] = imports[i];
 			}
 			return getTab(tabCount)+"import:function()"+getLeftBrace(tabCount)+importString+getTab(tabCount)+"},\n";
 		}
+//		protected function toImport2(tabCount:int):String
+//		{
+//			var importString:String = "";
+//			if(packAge)
+//			{
+//				imports.push(packAge+"."+name);	
+//			}
+//			for (var i:int = 0; i < imports.length; i++) 
+//			{
+//				var importItems:Array = imports[i].split('.');
+//				tempData.thisTempData[importItems[importItems.length-1]] = null;
+//				importString += getTab(tabCount+1)+"this."+importItems[importItems.length-1]+" = "+imports[i]+";\n";
+//			}
+//			return getTab(tabCount)+"import:function()"+getLeftBrace(tabCount)+importString+getTab(tabCount)+"},\n";
+//		}
 		protected function setTempData():void
 		{
 			tempData.thisTempData = new Dictionary();
 			tempData.staticTempData = new Dictionary();
+			tempData.importTempData = new Dictionary();
 			tempData.staticTempData[".this"] = packAge+(packAge.length?".":"")+name;
 			for (var i:int = 0; i < variables.length; i++) 
 			{
@@ -112,6 +141,16 @@ package how.as2js.codeDom
 					}
 				}
 			}
+			var importString:String = "";
+			if(packAge)
+			{
+				imports.push(packAge+"."+name);	
+			}
+			for (i = 0; i < imports.length; i++) 
+			{
+				var importItems:Array = imports[i].split('.');
+				tempData.importTempData[importItems[importItems.length-1]] = imports[i];
+			}
 		}
 		protected function toVariable(tabCount:int):String
 		{
@@ -120,7 +159,7 @@ package how.as2js.codeDom
 			{
 				if(!variables[i].isStatic)
 				{
-					var value:String = variables[i].value?variables[i].value.toES5(0):"null";
+					var value:String = variables[i].value?variables[i].value.out(0):"null";
 					variableString += getTab(tabCount)+variables[i].key+":"+value+",\n";	
 				}
 			}
@@ -141,7 +180,7 @@ package how.as2js.codeDom
 					}
 					var funName:String = functions[i].isCtor?"init":functions[i].name;
 					funName = functions[i].type == CodeFunction.TYPE_GET || functions[i].type == CodeFunction.TYPE_SET?"\""+funName+"\"":funName;
-					functionString += getTab(tabCount)+funName+":"+functions[i].toES5(tabCount)+",\n";
+					functionString += getTab(tabCount)+funName+":"+functions[i].out(tabCount)+",\n";
 				}
 			}
 			return functionString;
@@ -153,7 +192,7 @@ package how.as2js.codeDom
 			{
 				if(variables[i].isStatic)
 				{
-					var value:String = variables[i].value?variables[i].value.toES5(0):"null";
+					var value:String = variables[i].value?variables[i].value.out(0):"null";
 					variableString += getTab(tabCount)+packAge+(packAge.length?".":"")+name+"."+variables[i].key+" = "+value+",\n";	
 				}
 			}
@@ -169,8 +208,9 @@ package how.as2js.codeDom
 					functions[i].executable.tempData = new TempData();
 					functions[i].executable.tempData.staticTempData = new Dictionary();
 					functions[i].executable.tempData.thisTempData = tempData.staticTempData;
+					functions[i].executable.tempData.importTempData = tempData.importTempData;
 					var funName:String = functions[i].name;
-					functionString += getTab(tabCount)+packAge+(packAge.length?".":"")+name+"[\""+funName+"\"] = "+functions[i].toES5(tabCount)+"\n";
+					functionString += getTab(tabCount)+packAge+(packAge.length?".":"")+name+"[\""+funName+"\"] = "+functions[i].out(tabCount)+"\n";
 				}
 			}
 			return functionString;
@@ -192,7 +232,6 @@ package how.as2js.codeDom
 		{
 			var insertString:String = "";
 			insertString += getTab(tabCount)+"this.binds();\n";
-			insertString += getTab(tabCount)+"this.import();\n";
 			return insertString;
 		}
 		protected function toGetSetFunction(tabCount:int):String

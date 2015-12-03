@@ -55,12 +55,12 @@ package how.as2js.codeDom
 		{
 			return instructions[index];
 		}
-		override public function toES5(tabCount:int):String
+		override public function out(tabCount:int):String
 		{
 			var result:String = "";
 			for (currentIndex = 0; currentIndex < instructions.length; currentIndex++) 
 			{
-				result += instructions[currentIndex].toES5(tabCount);
+				result += instructions[currentIndex].out(tabCount);
 			}
 			return result;
 		}
