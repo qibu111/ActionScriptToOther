@@ -20,6 +20,8 @@
 
 不支持use namespace关键字
 
+不支持对象作key
+
 默认模式和cocos2d-js模式不支持重写get/set，egret模式不支持单独只重写get/set中的某一个
 
 默认模式、cocos2d-js模式都不支持super调用父类其他方法和属性，egret完美支持
