@@ -29,18 +29,18 @@ package how.as2js.codeDom
 				var member:CodeMember = (superObject as CodeCallFunction).member as CodeMember;
 				if(member && !member.parent)//说明是构造
 				{
-					result = "_super" + superObject.outEgret(tabCount);
+					result = "_super" + superObject.out(tabCount);
 				}
 				else
 				{
-					result = "_super.prototype." + superObject.outEgret(tabCount) + ".call(this)";
+					result = "_super.prototype." + superObject.out(tabCount) + ".call(this)";
 				}
 				return result;
 			}
 			else
 			{
 				insertString = ".call";
-				result = "_super." + superObject.outEgret(tabCount);
+				result = "_super." + superObject.out(tabCount);
 				return result;	
 			}
 		}

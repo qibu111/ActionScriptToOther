@@ -41,7 +41,7 @@ package how.as2js.codeDom
 			{
 				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].out(0) + ";\n";
 			}
-			return "function "+name+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.out(tabCount+1)+getTab(tabCount)+"}";
+			return "function"+(executable.parent?name:" ")+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.out(tabCount+1)+getTab(tabCount)+"}";
 		}
 		override public function outEgret(tabCount:int):String
 		{
@@ -53,9 +53,9 @@ package how.as2js.codeDom
 			var valuesString:String = "";
 			for (var i:int = 0; i < listValues.length; i++)
 			{
-				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].outEgret(0) + ";\n";
+				valuesString += getTab(tabCount+1) + listParameters[i] +  " = " + listParameters[i]+"!=null||"+listParameters[i]+"!=undefined?"+listParameters[i]+":" + listValues[i].out(0) + ";\n";
 			}
-			return "function "+(isCtor?name:"")+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.outEgret(tabCount+1)+getTab(tabCount)+"}";
+			return "function "+(isCtor?name:"")+"("+toParam(tabCount)+")"+getLeftBrace(tabCount)+insertString+valuesString+executable.out(tabCount+1)+getTab(tabCount)+"}";
 		}
 		protected function toParam(tabCount:int):String
 		{

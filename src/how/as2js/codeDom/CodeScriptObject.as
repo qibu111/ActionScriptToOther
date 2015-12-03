@@ -18,6 +18,10 @@ package how.as2js.codeDom
 			{
 				result = "\""+object+"\"";
 			}
+			else
+			{
+				result = object+"";
+			}
 			return result;
 		}
 	}

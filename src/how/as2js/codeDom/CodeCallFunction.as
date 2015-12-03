@@ -26,13 +26,13 @@ package how.as2js.codeDom
 			for (var i:int = 0; i < parameters.length; i++) 
 			{
 				parameters[i].owner = owner;
-				arg += parameters[i].outEgret(tabCount);
+				arg += parameters[i].out(tabCount);
 				if(i != parameters.length - 1)
 				{
 					arg += ",";
 				}
 			}
-			return member.outEgret(tabCount) + insertString + "(" + arg + ")";
+			return member.out(tabCount) + insertString + "(" + arg + ")";
 		}
 	}
 }

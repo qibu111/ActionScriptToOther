@@ -59,17 +59,26 @@ package how.as2js.codeDom
 				parent.owner = owner;	
 			}
 			var mem:Object;
-			if(this.type == TYPE_STRING)
+			if(type == TYPE_STRING)
 			{
-				mem = this.memberString;
+				mem = memberString;
 			}
-			else if(this.type == TYPE_OBJECT)
+			else if(type == TYPE_OBJECT)
 			{
-				mem = this.memberObject;
+				var codeMember:CodeMember = memberObject as CodeMember;
+				if(codeMember)
+				{
+					codeMember.owner = owner;
+					mem = codeMember.out(0);
+				}
+				else
+				{
+					mem = memberObject;
+				}
 			}
-			else if(this.type == TYPE_NUMBER)
+			else if(type == TYPE_NUMBER)
 			{
-				mem = this.memberNumber;
+				mem = memberNumber;
 			}
 			else
 			{
