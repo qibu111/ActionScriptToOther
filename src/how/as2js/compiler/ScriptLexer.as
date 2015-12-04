@@ -1,5 +1,6 @@
 package how.as2js.compiler
 {
+	import how.as2js.Config;
 	import how.as2js.Utils;
 
 	/**
@@ -10,6 +11,12 @@ package how.as2js.compiler
 		private var m_strToken:String = null;           //字符串token
 		private var m_listSourceLines:Vector.<String>;//所有行
 		private var m_listTokens:Vector.<Token>;//解析后所得Token
+		private var _commentList:Vector.<String>;
+		public function get commentList():Vector.<String>//解析后得到的注释内容
+		{
+			return _commentList;
+		}
+		private var commentStrToken:String = "";           //字符串token
 		private var m_strBreviary:String;//字符串的摘要 取第一行字符串的前20个字符
 		private const BREVIARY_CHAR:int = 20;//摘要的字符数
 		private var m_iSourceLine:int;//当前解析行数
@@ -43,6 +50,7 @@ package how.as2js.compiler
 		{
 			m_listSourceLines = new Vector.<String>();
 			m_listTokens = new Vector.<Token>();
+			_commentList = new Vector.<String>();
 			var strSource:String = buffer.replace("\r\n", "\r");
 			var strLines:Array = strSource.split('\r');
 			m_strBreviary = strLines.length > 0 ? strLines[0] : "";
@@ -86,6 +94,35 @@ package how.as2js.compiler
 			lexeme = lexeme != null?lexeme:ch;
 			m_listTokens.push(new Token(type, lexeme, m_iSourceLine, m_iSourceChar));
 			lexState = LexState.None;
+		}
+		public function get modol():int
+		{
+			if(_commentList)
+			{
+				for (var i:int = 0; i < _commentList.length; i++) 
+				{
+					if(_commentList[i] == "@modol" && i+1 < _commentList.length)
+					{
+						return parseInt(_commentList[i+1]);
+					}
+				}
+			}
+			return 0;
+		}
+		protected function AddComment():void
+		{
+			if(Utils.IsLetterOrDigit(ch) || ch == '@')
+			{
+				commentStrToken += ch;
+			}
+			else
+			{
+				if(commentStrToken.length != 0)
+				{
+					_commentList.push(commentStrToken);
+				}
+				commentStrToken = "";
+			}
 		}
 		private function ThrowInvalidCharacterException(ch:String):void
 		{
@@ -183,6 +220,7 @@ package how.as2js.compiler
 								break;
 							case '/':
 								lexState = LexState.CommentOrDivideOrAssignDivide;
+								AddComment();
 								break;
 							case '%':
 								lexState = LexState.ModuloOrAssignModulo;
@@ -287,9 +325,11 @@ package how.as2js.compiler
 						switch (ch) {
 							case '/':
 								lexState = LexState.LineComment;
+								AddComment();
 								break;
 							case '*':
 								lexState = LexState.BlockCommentStart;
+								AddComment();
 								break;
 							case '=':
 								AddToken(TokenType.AssignDivide, "/=");
@@ -315,12 +355,14 @@ package how.as2js.compiler
 					case LexState.BlockCommentStart:
 						if (ch == '*')
 							lexState = LexState.BlockCommentEnd;
+						AddComment();
 						break;
 					case LexState.BlockCommentEnd:
 						if (ch == '/')
 							lexState = LexState.None;
 						else
 							lexState = LexState.BlockCommentStart;
+						AddComment();
 						break;
 					case LexState.AssignOrEqual:
 						if (ch == '=') {
@@ -542,6 +584,8 @@ package how.as2js.compiler
 							var tokenType:int;
 							switch (m_strToken)
 							{
+								case "modol":
+									break;
 								case "package":
 									tokenType = TokenType.Package;
 									break;
@@ -689,6 +733,7 @@ package how.as2js.compiler
 				}
 			}
 			m_listTokens.push(new Token(TokenType.Finished, "", m_iSourceLine, m_iSourceChar));
+			Config.modol = modol;
 			return m_listTokens;
 		}
 	}
