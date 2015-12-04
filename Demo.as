@@ -26,37 +26,28 @@ if(codeClass)
 }
 --------------------------------------------------------------------------------------------------------------------------------
 "Demo.as"：
-package
+package how.demo
 {
-	import how.howMain;
-	public class Demo extends howMain
+	import how.behaviour.Action;
+	public class Demo
 	{
-		public function Demo()
+		private var target: Object;
+		private var values: Object;
+		private var data:int = 2;
+		private static var data:int = 1;
+		public function Demo(target: Object,values: Object)
 		{
-			super(LoadingUI,"gameResource.json",
-				["sound","public","disanfang","zhanghaodenglu","kuaisudenglu","loginScene"],960,640,base.Loadding);
+			super();
+			this.target = target;
+			this.values = values;
 		}
-		public function start(): void 
-		{
-			how.ComponentUtils.init("public.AlertSkin","public.DialogSkin",null,"public.NoticeSkin","public.LoaddingSkin");
-			AppModule.getInstance().initModule(LoginSceneModule,LoginSceneView,LoginSceneData);//模块初始化
-			new how.behaviour.Exec("Test.action",null,this).exec();
-		}
-		/**
-		 * 子类继承获取加载进度
-		 */
-		protected function onLoaddingProgress(percent: number,current: number,total: number): void {
-			var loadingUI: LoadingUI = this.loadingUI;
-			loadingUI.setProgress(percent,current,total);
-		}
-		protected function onAllGroupComplete(): void {
-			var loadingUI: LoadingUI = this.loadingUI;
-			loadingUI.setText("正在初始化...");
-		}
-		public function onBack(): void {
-			how.Dialog.show("你确定要退出游戏？",function(): void {
-				how.Application.exit();
-			},null,this);
+		public function exec(): void {
+			this.parseValue("target");
+			this.parseValue("values");
+			for(var at in this.values) {
+				this.target[at] = this.values[at];
+			}
+			this.done();
 		}
 	}
 }

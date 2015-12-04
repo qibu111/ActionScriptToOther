@@ -1,30 +1,25 @@
-Demo = Class.extend({
+how = how || {};
+how.demo = how.demo || {};
+how.demo.Demo = Class.extend({
     binds:function(){
-        this.start = this.start.bind(this);
-        this.onLoaddingProgress = this.onLoaddingProgress.bind(this);
-        this.onAllGroupComplete = this.onAllGroupComplete.bind(this);
-        this.onBack = this.onBack.bind(this);
+        this.exec = this.exec.bind(this);
     },
-    init:function Demo(){
-        this.binds();
+    target:null,
+    values:null,
+    data:2,
+    init:function (target,values){
         this.base();
+        this.target = target;
+        this.values = this.values;
+        this.binds();
     },
-    start:function start(){
-        how.ComponentUtils.init("public.AlertSkin","public.DialogSkin",,"public.NoticeSkin","public.LoaddingSkin");
-        AppModule.getInstance().initModule(LoginSceneModule,LoginSceneView,LoginSceneData);
-        new how.behaviour.Exec("Test.action",,this).exec();
-    },
-    onLoaddingProgress:function onLoaddingProgress(percent,current,total){
-        var loadingUI = this.loadingUI;
-        loadingUI.setProgress(percent,current,total);
-    },
-    onAllGroupComplete:function onAllGroupComplete(){
-        var loadingUI = this.loadingUI;
-        loadingUI.setText("正在初始化...");
-    },
-    onBack:function onBack(){
-        how.Dialog.show("你确定要退出游戏？",function null(){
-            how.Application.exit();
-        },,this);
+    exec:function (){
+        this.parseValue("target");
+        this.parseValue("values");
+        for(var at in this.values){
+            this.target.at = this.values.at;
+        }
+        this.done();
     },
 })
+how.demo.Demo.data = 1;

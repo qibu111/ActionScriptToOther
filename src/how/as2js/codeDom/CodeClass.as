@@ -193,7 +193,7 @@ package how.as2js.codeDom
 				if(variables[i].isStatic)
 				{
 					var value:String = variables[i].value?variables[i].value.out(0):"null";
-					variableString += getTab(tabCount)+packAge+(packAge.length?".":"")+name+"."+variables[i].key+" = "+value+",\n";	
+					variableString += getTab(tabCount)+packAge+(packAge.length?".":"")+name+"."+variables[i].key+" = "+value+";\n";	
 				}
 			}
 			return variableString;
