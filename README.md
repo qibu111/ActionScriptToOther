@@ -12,6 +12,8 @@
 
 转换后：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo(cocos).js
 
+提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1kUqSR1l 密码：fe8z
+
 ----------------------------------------------------------------------------------------------------------------------
 
 ###暂不支持
