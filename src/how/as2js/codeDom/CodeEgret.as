@@ -31,9 +31,37 @@ package how.as2js.codeDom
 		override protected function getBody(tabCount:int):String
 		{
 			return getTab(tabCount)+name+" = (function (_super) {\n"+getTab(tabCount+1)+"__extends("+name+", _super);\n"+getTab(tabCount+1)+
-				"var d = __define,c="+name+";p=c.prototype;\n"+toFunction(tabCount+1)+toGetSetFunction(tabCount+1)+getTab(tabCount+1)+"return "+name+";\n"+
+				"var d = __define,c="+name+";p=c.prototype;\n"+toVariable(tabCount+1)+toFunction(tabCount+1)+toGetSetFunction(tabCount+1)+
+				toStaticVariable(tabCount+1)+getTab(tabCount+1)+"return "+name+";\n"+
 				getTab(tabCount)+"})("+toParent()+");\n"+getTab(tabCount)+(packAge?packAge+(packAge.length?".":"")+
 				name+" = "+name+";\n":"")+getTab(tabCount)+"egret.registerClass("+name+",\""+packAge+(packAge.length?".":"")+name+"\");";
+		}
+		override protected function toVariable(tabCount:int):String
+		{
+			var variableString:String = "";
+			for (var i:int = 0; i < variables.length; i++) 
+			{
+				if(!variables[i].isStatic)
+				{
+					var value:String = variables[i].value?variables[i].value.out(0):"null";
+					variableString += getTab(tabCount+1)+"this."+variables[i].key+" = "+value+";\n";	
+				}
+			}
+			return getTab(tabCount)+"p[\".init\"] = "+"function ()"+getLeftBrace(tabCount)+
+				variableString+getTab(tabCount)+"};\n";
+		}
+		override protected function toStaticVariable(tabCount:int):String
+		{
+			var variableString:String = "";
+			for (var i:int = 0; i < variables.length; i++) 
+			{
+				if(variables[i].isStatic)
+				{
+					var value:String = variables[i].value?variables[i].value.out(0):"null";
+					variableString += getTab(tabCount)+name+"."+variables[i].key+" = "+value+";\n";	
+				}
+			}
+			return variableString;
 		}
 		override protected function toFunction(tabCount:int):String
 		{
@@ -47,6 +75,7 @@ package how.as2js.codeDom
 					var funName:String = functions[i].type == CodeFunction.TYPE_GET || functions[i].type == CodeFunction.TYPE_SET?"[\""+functions[i].name+"\"]":"."+functions[i].name;
 					if(functions[i].isCtor)
 					{
+						functions[i].insertString = toVariable(tabCount+1);
 						functionString += getTab(tabCount)+functions[i].out(tabCount)+";\n";
 					}
 					else

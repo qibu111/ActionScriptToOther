@@ -29,7 +29,8 @@ package how.as2js.codeDom
 				var member:CodeMember = (superObject as CodeCallFunction).member as CodeMember;
 				if(member && !member.parent)//说明是构造
 				{
-					result = "_super" + superObject.out(tabCount);
+					result = "_super" + superObject.out(tabCount)+";\n";
+					result += getTab(tabCount)+"this[\".init\"]()";
 				}
 				else
 				{
