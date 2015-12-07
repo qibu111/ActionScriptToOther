@@ -217,6 +217,10 @@ package how.as2js.codeDom
 		}
 		protected function toBindFunction(tabCount:int):String
 		{
+			if(!Config.bind)
+			{
+				return "";
+			}
 			var bindString:String = "";	
 			for (var i:int = 0; i < functions.length; i++) 
 			{

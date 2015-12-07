@@ -95,19 +95,19 @@ package how.as2js.compiler
 			m_listTokens.push(new Token(type, lexeme, m_iSourceLine, m_iSourceChar));
 			lexState = LexState.None;
 		}
-		public function get modol():int
+		public function getValue(key:String):String
 		{
 			if(_commentList)
 			{
 				for (var i:int = 0; i < _commentList.length; i++) 
 				{
-					if(_commentList[i] == "@modol" && i+1 < _commentList.length)
+					if(_commentList[i] == "@"+key && i+1 < _commentList.length)
 					{
-						return parseInt(_commentList[i+1]);
+						return _commentList[i+1];
 					}
 				}
 			}
-			return 0;
+			return null;
 		}
 		protected function AddComment():void
 		{
@@ -733,7 +733,8 @@ package how.as2js.compiler
 				}
 			}
 			m_listTokens.push(new Token(TokenType.Finished, "", m_iSourceLine, m_iSourceChar));
-			Config.modol = modol;
+			Config.modol = parseInt(getValue("modol"));
+			Config.bind = getValue("bind") != null && getValue("bind") == "true";
 			return m_listTokens;
 		}
 	}

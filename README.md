@@ -1,8 +1,10 @@
 ###简要说明
 
-可以把ActionScript3.0代码转换成JavaScript代码，成功规避了JavaScript的this问题
+可以把ActionScript3.0代码转换成JavaScript代码，可以免除this问题困扰。
 
-注释中可以通过@modol直接设置模式
+配合ActionScriptForUnity框架，可以直接用as3开发egret、cocos和unity游戏。
+
+此库是as3写的，开发者可以用Adobe AIR技术迅速开发出代码转换程序。也可以利用本人的行为IDE来转换代码。
 
 转换前：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo.as 
 
@@ -13,6 +15,8 @@
 转换后：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo(cocos).js
 
 提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1kUqSR1l 密码：fe8z
+
+转换教程是新建脚本，再新建布局，加入自定义行为，拖入脚本，勾选属性栏入口，Ctrl+E导出，用文本文档查看代码。
 
 ----------------------------------------------------------------------------------------------------------------------
 
@@ -33,6 +37,8 @@
 ----------------------------------------------------------------------------------------------------------------------
 
 ###注意事项
+
+文件开头注释中加入@modol 1可设置导出模式，设置@bind true可绑定成员方法的执行上下文为this
 
 egret模式可以继承egret引擎中的类，其他模式也一样，模式切换在Config类中
 

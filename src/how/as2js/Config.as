@@ -23,5 +23,9 @@ package how.as2js
 		 * 0:how,1:egret,2:cocos2d-js,3:babel
 		 */
 		public static var modol:int = 0;
+		/**
+		 * 是否绑定this
+		 */
+		public static var bind:Boolean = false;
 	}
 }

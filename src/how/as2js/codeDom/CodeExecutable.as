@@ -55,7 +55,7 @@ package how.as2js.codeDom
 		{
 			return instructions[index];
 		}
-		override public function out(tabCount:int):String
+		override public function outJS(tabCount:int):String
 		{
 			var result:String = "";
 			for (currentIndex = 0; currentIndex < instructions.length; currentIndex++) 
@@ -63,6 +63,26 @@ package how.as2js.codeDom
 				result += instructions[currentIndex].out(tabCount);
 			}
 			return result;
+		}
+		override public function outEgret(tabCount:int):String
+		{
+			var result:String = hasSuper()?"":getTab(tabCount)+"this[\".init\"]();\n";
+			for (currentIndex = 0; currentIndex < instructions.length; currentIndex++) 
+			{
+				result += instructions[currentIndex].out(tabCount);
+			}
+			return result;
+		}
+		protected function hasSuper():Boolean
+		{
+			for (var i:int = 0; i < instructions.length; i++) 
+			{
+				if(instructions[i].operand0 is CodeSuper)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
