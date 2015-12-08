@@ -20,6 +20,17 @@ package how.as2js.codeDom
 		public var functions:Vector.<CodeFunction> = new Vector.<CodeFunction>();							//父指令
 		public var tempData:TempData = new TempData();
 		protected var runTime:Runtime;
+		public function get classPath():String
+		{
+			if(packAge.length)
+			{
+				return packAge+"."+name;
+			}
+			else
+			{
+				return name;
+			}
+		}
 		public function outClass(runTime:Runtime):String
 		{
 			this.runTime = runTime;
@@ -165,8 +176,11 @@ package how.as2js.codeDom
 		}
 		public function copyTemData():void
 		{
-			var parentPath:String = tempData.importTempData[parent]?tempData.importTempData[parent]:parent;
-			var parentClass:CodeClass = runTime.getClass(parentPath);
+			var parentClass:CodeClass = runTime.getClass(tempData.importTempData[parent],parent);
+			if(!parentClass)
+			{
+				return;
+			}
 			for (var i:int = 0; i < parentClass.functions.length; i++) 
 			{
 				if(!tempData.thisTempData.hasOwnProperty(parentClass.functions[i].name) && parentClass.functions[i].name != parentClass.name &&  !parentClass.functions[i].IsStatic)

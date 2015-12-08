@@ -2,6 +2,7 @@ package how.as2js.runtime
 {
 	import flash.utils.Dictionary;
 	
+	import how.as2js.Config;
 	import how.as2js.codeDom.CodeClass;
 
 	public class Runtime
@@ -10,9 +11,23 @@ package how.as2js.runtime
 		public function Runtime()
 		{
 		}
-		public function getClass(classPath:String):CodeClass
+		public function getClass(packAge:String,className:String):CodeClass
 		{
-			return _classes[classPath];
+			if(packAge)
+			{
+				if(_classes[packAge])
+				{
+					return _classes[packAge][className];
+				}
+				else
+				{
+					return null;
+				}
+			}
+			else
+			{
+				return _classes[className];
+			}
 		}
 		public function registerClass(codeClass:CodeClass):void
 		{
@@ -36,6 +51,26 @@ package how.as2js.runtime
 			{
 				delete _classes[codeClass.name];
 			}
+		}
+		public function outClass(modol:int = 1):String
+		{
+			var result:String = "";
+			Config.modol = modol;
+			for (var key:String in _classes) 
+			{
+				var codeClass:CodeClass;
+				if(_classes[key] is CodeClass)
+				{
+					codeClass = _classes[key];
+					result += codeClass.outClass(this)+"\n";
+				}
+				for(var className:String in _classes[key])
+				{
+					codeClass = _classes[key][className];
+					result += codeClass.outClass(this)+"\n";
+				}
+			}
+			return result;
 		}
 	}
 }
