@@ -1,6 +1,6 @@
 ###简要说明
 
-可以把ActionScript3.0代码转换成JavaScript代码，可以免除this问题困扰。
+可以把ActionScript3.0代码转换成JavaScript代码。
 
 配合ActionScriptForUnity框架，可以直接用as3开发egret、cocos和unity游戏。
 
@@ -37,6 +37,8 @@
 ----------------------------------------------------------------------------------------------------------------------
 
 ###注意事项
+
+如果继承的是egret或者cocos的类，那么必须加this
 
 文件开头注释中加入@modol 1可设置导出模式，设置@bind true可绑定成员方法的执行上下文为this
 

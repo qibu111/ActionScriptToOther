@@ -42,6 +42,7 @@
     <classEntry path="how.as2js.runtime.ToJavaScript"/>
     <classEntry path="how.as2js.Config"/>
     <classEntry path="how.as2js.codeDom.CodeEgret"/>
+    <classEntry path="how.as2js.runtime.Runtime"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

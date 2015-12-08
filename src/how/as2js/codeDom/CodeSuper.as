@@ -29,7 +29,11 @@ package how.as2js.codeDom
 				var member:CodeMember = (superObject as CodeCallFunction).member as CodeMember;
 				if(member && !member.parent)//说明是构造
 				{
-					result = "_super" + superObject.out(tabCount)+";\n";
+					var superParam:Vector.<CodeObject> = (superObject as CodeCallFunction).parameters;
+					var thisParam:Vector.<CodeObject> = new Vector.<CodeObject>();
+					thisParam.push(new CodeMember("this"));
+					(superObject as CodeCallFunction).parameters = thisParam.concat(superParam);
+					result = "_super.call" + superObject.out(tabCount)+";\n";
 					result += getTab(tabCount)+"this[\".init\"]()";
 				}
 				else

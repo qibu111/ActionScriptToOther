@@ -67,6 +67,7 @@ package how.as2js.codeDom
 		override public function outEgret(tabCount:int):String
 		{
 			var result:String = hasSuper()?"":getTab(tabCount)+"this[\".init\"]();\n";
+			result = "";
 			for (currentIndex = 0; currentIndex < instructions.length; currentIndex++) 
 			{
 				result += instructions[currentIndex].out(tabCount);

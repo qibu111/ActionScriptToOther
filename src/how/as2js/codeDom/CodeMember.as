@@ -12,6 +12,7 @@ package how.as2js.codeDom
 		public var memberNumber:Number;//成员值，this[0]
 		public var type:int = TYPE_NULL;//成员类型
 		public var calc:int;//前后标识
+		public var memType:CodeObject;
 		public function CodeMember(name:String = null,member:CodeObject = null,num:Number = 0,parent:CodeObject = null)
 		{
 			if(name)

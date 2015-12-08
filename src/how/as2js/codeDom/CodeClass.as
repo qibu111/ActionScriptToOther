@@ -4,6 +4,7 @@ package how.as2js.codeDom
 	
 	import how.as2js.Config;
 	import how.as2js.codeDom.temp.TempData;
+	import how.as2js.runtime.Runtime;
 	
 
 	public class CodeClass extends CodeObject
@@ -18,6 +19,12 @@ package how.as2js.codeDom
 		public var variables:Vector.<CodeVariable> = new Vector.<CodeVariable>();
 		public var functions:Vector.<CodeFunction> = new Vector.<CodeFunction>();							//父指令
 		public var tempData:TempData = new TempData();
+		protected var runTime:Runtime;
+		public function outClass(runTime:Runtime):String
+		{
+			this.runTime = runTime;
+			return out(0);
+		}
 		override public function out(tabCount:int):String
 		{
 			tabCount++;
@@ -151,6 +158,30 @@ package how.as2js.codeDom
 				var importItems:Array = imports[i].split('.');
 				tempData.importTempData[importItems[importItems.length-1]] = imports[i];
 			}
+			if(parent)
+			{
+				this.copyTemData();
+			}
+		}
+		public function copyTemData():void
+		{
+			var parentPath:String = tempData.importTempData[parent]?tempData.importTempData[parent]:parent;
+			var parentClass:CodeClass = runTime.getClass(parentPath);
+			for (var i:int = 0; i < parentClass.functions.length; i++) 
+			{
+				if(!tempData.thisTempData.hasOwnProperty(parentClass.functions[i].name) && parentClass.functions[i].name != parentClass.name &&  !parentClass.functions[i].IsStatic)
+				{
+					tempData.thisTempData[parentClass.functions[i].name] = parentClass.functions[i].name;
+				}
+			}
+			for (var j:int = 0; j < parentClass.variables.length; j++) 
+			{
+				if(!tempData.thisTempData.hasOwnProperty(parentClass.variables[j].key) && !parentClass.variables[j].isStatic)
+				{
+					tempData.thisTempData[parentClass.variables[j].key] = parentClass.variables[j].key;
+				}
+			}
+			
 		}
 		protected function toVariable(tabCount:int):String
 		{
@@ -235,7 +266,10 @@ package how.as2js.codeDom
 		protected function toInsertFunction(tabCount:int):String
 		{
 			var insertString:String = "";
-			insertString += getTab(tabCount)+"this.binds();\n";
+			if(Config.bind)
+			{
+				insertString += getTab(tabCount)+"this.binds();\n";
+			}
 			return insertString;
 		}
 		protected function toGetSetFunction(tabCount:int):String

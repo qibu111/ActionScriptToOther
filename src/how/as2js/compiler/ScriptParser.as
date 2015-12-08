@@ -497,7 +497,7 @@ package how.as2js.compiler
 					var token:Token = ReadToken();
 					if(token.Type == TokenType.Colon && readColon)//如果后面跟着个冒号
 					{
-						ReadToken();
+						member.memType = GetOneObject();
 						token = ReadToken();
 					}
 					switch (token.Type)
@@ -747,26 +747,20 @@ package how.as2js.compiler
 		{
 			for (; ; ) 
 			{
-				executable.addInstruction(new CodeInstruction(Opcode.VAR,null,null,ReadIdentifier()));
+				var tokenIndex:int = m_iNextToken;
+				var identifier:String = ReadIdentifier();
+				var typeMem:CodeObject;
 				var peek:Token = PeekToken();
 				if (peek.Type == TokenType.Colon)
 				{
 					ReadToken();
-					ReadToken();
+					typeMem = GetOneObject();
 					peek = PeekToken();
 				}
+				executable.addInstruction(new CodeInstruction(Opcode.VAR,typeMem,null,identifier));
 				if (peek.Type == TokenType.Assign) 
 				{
-					UndoToken();
-					UndoToken();
-					if(PeekToken().Type == TokenType.Colon)
-					{
-						UndoToken();
-					}
-					else
-					{
-						ReadToken();
-					}
+					m_iNextToken = tokenIndex;
 					ParseStatement(executable);
 				}
 				peek = ReadToken();
