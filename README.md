@@ -14,7 +14,7 @@
 
 转换后：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo(cocos).js
 
-提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1kUqSR1l 密码：fe8z
+提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1hrsvthq 密码：0e1u
 
 转换教程是新建脚本，再新建布局，加入自定义行为，拖入脚本，勾选属性栏入口，Ctrl+E导出，用文本文档查看代码。
 
