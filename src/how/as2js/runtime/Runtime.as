@@ -11,6 +11,19 @@ package how.as2js.runtime
 		public function Runtime()
 		{
 		}
+		public function getClasses(packAge:String):Vector.<CodeClass>
+		{
+			var result:Vector.<CodeClass> = new Vector.<CodeClass>();
+			if(packAge && _classes[packAge])
+			{
+				var classes:Dictionary = _classes[packAge];
+				for (var key:String in classes) 
+				{
+					result.push(classes[key]);
+				}
+			}
+			return result;
+		}
 		public function getClass(packAge:String,className:String):CodeClass
 		{
 			if(packAge)

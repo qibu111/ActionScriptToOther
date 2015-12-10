@@ -169,6 +169,11 @@ package how.as2js.codeDom
 				var importItems:Array = imports[i].split('.');
 				tempData.importTempData[importItems[importItems.length-1]] = imports[i];
 			}
+			var samePackageClass:Vector.<CodeClass> = runTime.getClasses(packAge);
+			for (var j:int = 0; j < samePackageClass.length; j++) 
+			{
+				tempData.importTempData[samePackageClass[j].name] = samePackageClass[j].classPath;
+			}
 			if(parent)
 			{
 				this.copyTemData();
