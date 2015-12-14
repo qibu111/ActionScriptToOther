@@ -4,7 +4,7 @@ package how.as2js.codeDom
 	{
 		public var member:CodeObject;
 		public var parameters:Vector.<CodeObject>;
-		override public function out(tabCount:int):String
+		override public function outJS(tabCount:int):String
 		{
 			member.owner = owner;
 			var arg:String = "";

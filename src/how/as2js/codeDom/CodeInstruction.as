@@ -90,8 +90,15 @@ package how.as2js.codeDom
 		}
 		protected function convertRet(tabCount:int):String
 		{
-			operand0.owner = owner;
-			return getTab(tabCount)+"return "+operand0.out(tabCount)+";\n";
+			if(operand0)
+			{
+				operand0.owner = owner;
+				return getTab(tabCount)+"return "+operand0.out(tabCount)+";\n";
+			}
+			else
+			{
+				return getTab(tabCount)+"return;\n";
+			}
 		}
 		protected function convertCallFunction(tabCount:int):String
 		{

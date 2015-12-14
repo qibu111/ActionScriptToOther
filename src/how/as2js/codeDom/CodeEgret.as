@@ -31,8 +31,9 @@ package how.as2js.codeDom
 		}
 		override protected function getBody(tabCount:int):String
 		{
-			return getTab(tabCount)+name+" = (function (_super) {\n"+getTab(tabCount+1)+"__extends("+name+", _super);\n"+toFunction(tabCount+1)+getTab(tabCount+1)+
-				"var d = __define,c="+name+";p=c.prototype;\n"+toVariable(tabCount+1)+toBindFunction(tabCount+1)+toGetSetFunction(tabCount+1)+
+			return getTab(tabCount)+name+" = (function (_super) {\n"+getTab(tabCount+1)+"__extends("+name+", _super);\n"+getTab(tabCount+1)+
+				"var d = __define,c="+name+";p=c.prototype;\n"+
+				toFunction(tabCount+1)+toVariable(tabCount+1)+toBindFunction(tabCount+1)+toGetSetFunction(tabCount+1)+
 				toStaticVariable(tabCount+1)+getTab(tabCount+1)+"return "+name+";\n"+
 				getTab(tabCount)+"})("+toParent()+");\n"+getTab(tabCount)+(packAge?packAge+(packAge.length?".":"")+
 				name+" = "+name+";\n":"")+getTab(tabCount)+"egret.registerClass("+name+",\""+packAge+(packAge.length?".":"")+name+"\");";
