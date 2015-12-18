@@ -45,6 +45,11 @@ package how.as2js.codeDom
 			{
 				if(!variables[i].isStatic)
 				{
+					if(variables[i].value)
+					{
+						variables[i].value.owner = new CodeExecutable(0);
+						variables[i].value.owner.tempData = tempData;
+					}
 					var value:String = variables[i].value?variables[i].value.out(0):"null";
 					variableString += getTab(tabCount+1)+"this."+variables[i].key+" = "+value+";\n";	
 				}
@@ -63,6 +68,11 @@ package how.as2js.codeDom
 			{
 				if(variables[i].isStatic)
 				{
+					if(variables[i].value)
+					{
+						variables[i].value.owner = new CodeExecutable(0);
+						variables[i].value.owner.tempData = tempData;
+					}
 					var value:String = variables[i].value?variables[i].value.out(0):"null";
 					variableString += getTab(tabCount)+name+"."+variables[i].key+" = "+value+";\n";	
 				}

@@ -314,6 +314,16 @@ package how.as2js.compiler
 					(ret as CodeMember).type = CodeMember.TYPE_NULL;
 					break;
 				case TokenType.Identifier:
+					if(token.Lexeme == "Vector")
+					{
+						if(PeekToken().Type == TokenType.Period)
+						{
+							ReadToken();//.
+							ReadToken();//>
+							ReadToken();//type
+							ReadToken();//>
+						}
+					}
 					ret = new CodeMember(token.Lexeme.toString());
 					break;
 				case TokenType.Function:
@@ -378,11 +388,11 @@ package how.as2js.compiler
 				var ret:CodeTernary = new CodeTernary();
 				ret.allow = parent;
 				ReadToken();
-				ret.True = GetObject();
-				UndoToken();
-				UndoToken();
+				ret.True = GetObject(false);
+//				UndoToken();
+//				UndoToken();
 				ReadColon();
-				ret.False = GetObject();
+				ret.False = GetObject(false);
 				return ret;
 			}
 			return parent;
@@ -736,6 +746,10 @@ package how.as2js.compiler
 					break;
 				case TokenType.Delete:
 					executable.addInstruction(new CodeInstruction(Opcode.DELETE, new CodeDelete(GetObject())));
+					break;
+				case TokenType.LeftPar:
+					UndoToken();
+					executable.addInstruction(new CodeInstruction(Opcode.RESOLVE,GetObject()));
 					break;
 				default:
 					throw new ParseError(token,"不支持的语法 ");

@@ -584,8 +584,8 @@ package how.as2js.compiler
 							var tokenType:int;
 							switch (m_strToken)
 							{
-								case "modol":
-									break;
+//								case "modol":
+//									break;
 								case "package":
 									tokenType = TokenType.Package;
 									break;
@@ -733,8 +733,8 @@ package how.as2js.compiler
 				}
 			}
 			m_listTokens.push(new Token(TokenType.Finished, "", m_iSourceLine, m_iSourceChar));
-			Config.modol = parseInt(getValue("modol"));
-			Config.bind = getValue("bind") != null && getValue("bind") == "true";
+//			Config.modol = parseInt(getValue("modol"));
+//			Config.bind = getValue("bind") != null && getValue("bind") == "true";
 			return m_listTokens;
 		}
 	}

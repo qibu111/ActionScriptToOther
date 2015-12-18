@@ -51,7 +51,9 @@ package how.as2js.codeDom.temp
 		public static function getOper(oper:int):TempOperator
 		{
 			if (Operators.hasOwnProperty(oper))
+			{
 				return Operators[oper];
+			}
 			return null;
 		}
 	}

@@ -44,9 +44,7 @@ package how.as2js.codeDom
 		}
 		protected function getBody(tabCount:int):String
 		{
-			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = "+toParent()+".extend"+(Config.leftBraceNextLine?"\n":"")+
-				"({\n"+toBindFunction(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)
-				+toStaticVariable(tabCount-1)+toStaticFunction(tabCount-1);
+			return toPackage(tabCount-1)+packAge+(packAge.length?".":"")+name+" = "+toParent()+".extend"+(Config.leftBraceNextLine?"\n":"")+"({\n"+toBindFunction(tabCount)+toVariable(tabCount)+toFunction(tabCount)+"})\n"+toGetSetFunction(tabCount-1)+toStaticVariable(tabCount-1)+toStaticFunction(tabCount-1);
 		}
 		public function toParent():String
 		{
@@ -110,6 +108,7 @@ package how.as2js.codeDom
 //		}
 		protected function setTempData():void
 		{
+			tempData.tempData = new Dictionary();
 			tempData.thisTempData = new Dictionary();
 			tempData.staticTempData = new Dictionary();
 			tempData.importTempData = new Dictionary();

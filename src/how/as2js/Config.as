@@ -3,6 +3,11 @@ package how.as2js
 	public final class Config
 	{
 		/**
+		 * 暂时只支持0
+		 * 0:how,1:egret,2:cocos2d-js,3:babel
+		 */
+		public static var modol:int = 0;
+		/**
 		 * 是否单行显示
 		 */
 		public static var oneLine:Boolean = false;
@@ -18,11 +23,6 @@ package how.as2js
 		 * { 是否下一行显示
 		 */
 		public static var leftBraceNextLine:Boolean = false;
-		/**
-		 * 暂时只支持0
-		 * 0:how,1:egret,2:cocos2d-js,3:babel
-		 */
-		public static var modol:int = 0;
 		/**
 		 * 是否绑定this
 		 */
