@@ -547,7 +547,7 @@ package how.as2js.compiler
 						} else {
 							m_strToken = "0";
 							lexState = LexState.Number;
-							AddToken(TokenType.Number, 0);
+//							AddToken(TokenType.Number, 0);
 							UndoChar();
 						}
 						break;

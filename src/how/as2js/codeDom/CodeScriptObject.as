@@ -12,11 +12,14 @@ package how.as2js.codeDom
 			var result:String = "";
 			if(object is Number)
 			{
-				result = parseInt(object+"")+"";
+				result = parseFloat(object+"")+"";
 			}
 			else if(object is String)
 			{
 				result = "\""+object+"\"";
+				result = result.replace(/\n/g,"\\n");
+				result = result.replace(/\r/g,"\\r");
+				result = result.replace(/\t/g,"\\t");
 			}
 			else
 			{

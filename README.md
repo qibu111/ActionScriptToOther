@@ -22,13 +22,13 @@
 
 ###暂不支持
 
-不支持强制转换
+定义十六进制数据（可用parseInt("0x000fff")暂时代替）
 
-不支持Vector类型
+强制转换
 
-不支持use namespace关键字
+use namespace关键字
 
-不支持对象作key
+对象作key
 
 默认模式和cocos2d-js模式不支持重写get/set，egret模式不支持单独只重写get/set中的某一个
 
