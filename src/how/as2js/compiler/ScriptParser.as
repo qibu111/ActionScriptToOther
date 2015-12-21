@@ -649,7 +649,17 @@ package how.as2js.compiler
 			token = ReadToken();
 			if (token.Type == TokenType.Colon)//如果后面跟着冒号
 			{
-				ReadToken();
+				token = ReadToken();
+				if(token.Lexeme == "Vector")
+				{
+					if(PeekToken().Type == TokenType.Period)
+					{
+						ReadToken();//.
+						ReadToken();//>
+						ReadToken();//type
+						ReadToken();//>
+					}
+				}
 			}
 			else
 			{
