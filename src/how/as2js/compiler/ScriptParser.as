@@ -353,6 +353,7 @@ package how.as2js.compiler
 					break;
 				default:
 					throw new ParseError(token,"Object起始关键字错误 ");
+					break;
 			}
 			ret.stackInfo = new StackInfo(m_strBreviary, token.SourceLine);
 			ret = GetVariable(ret);
@@ -389,8 +390,8 @@ package how.as2js.compiler
 				ret.allow = parent;
 				ReadToken();
 				ret.True = GetObject(false);
-//				UndoToken();
-//				UndoToken();
+				//				UndoToken();
+				//				UndoToken();
 				ReadColon();
 				ret.False = GetObject(false);
 				return ret;
@@ -411,12 +412,15 @@ package how.as2js.compiler
 					ReadRightBracket();
 					if (member is CodeScriptObject) {
 						var obj:Object = (member as CodeScriptObject).object;
-						if (obj is Number)
+						if (obj is Number){
 							ret = new CodeMember(null,null,parseFloat(obj.toString()), ret);
-						else if (obj is String)
+						}
+						else if (obj is String){
 							ret = new CodeMember(obj.toString(),null,0, ret);
-						else
-						throw new ParseError(m,"获取变量只能是 number或string");
+						}
+						else{
+							throw new ParseError(m,"获取变量只能是 number或string");
+						}
 					} else {
 						ret = new CodeMember(null,member,0, ret);
 					}
@@ -442,11 +446,17 @@ package how.as2js.compiler
 				pars.push(GetObject());
 				token = PeekToken();
 				if (token.Type == TokenType.Comma)
+				{
 					ReadComma();
+				}
 				else if (token.Type == TokenType.RightPar)
+				{
 					break;
+				}
 				else
+				{
 					throw new ParseError(token,"Comma ',' or right parenthesis ')' expected in function declararion.");
+				}
 			}
 			ReadRightParenthesis();
 			ret.member = member;
@@ -461,16 +471,20 @@ package how.as2js.compiler
 			var ret:CodeArray = new CodeArray();
 			while (token.Type != TokenType.RightBracket)
 			{
-				if (PeekToken().Type == TokenType.RightBracket)
+				if (PeekToken().Type == TokenType.RightBracket){
 					break;
+				}
 				ret.elements.push(GetObject());
 				token = PeekToken();
 				if (token.Type == TokenType.Comma) {
 					ReadComma();
 				} else if (token.Type == TokenType.RightBracket) {
 					break;
-				} else
+				} 
+				else
+				{
 					throw new ParseError(token,"Comma ',' or right parenthesis ']' expected in array object.");
+				}
 			}
 			ReadRightBracket();
 			return ret;
@@ -524,6 +538,7 @@ package how.as2js.compiler
 						case TokenType.AssignShr:
 						case TokenType.AssignShi:
 							return new CodeAssign(member, GetObject(), token.Type, m_strBreviary, token.SourceLine);
+							break;
 						default:
 							UndoToken();
 							break;
@@ -545,7 +560,7 @@ package how.as2js.compiler
 		private function P_Operator(operateStack:Vector.<TempOperator>,objectStack:Vector.<CodeObject>):Boolean
 		{
 			var curr:TempOperator = TempOperator.getOper(PeekToken().Type);
-			if (curr == null) return false;
+			if (curr == null) {return false;}
 			ReadToken();
 			while (operateStack.length > 0) 
 			{
@@ -763,6 +778,7 @@ package how.as2js.compiler
 					break;
 				default:
 					throw new ParseError(token,"不支持的语法 ");
+					break;
 			}
 		}
 		
@@ -1029,15 +1045,15 @@ package how.as2js.compiler
 		//解析case
 		private function ParseCase(vals:Vector.<CodeObject>):void
 		{
-//			var val:Token = ReadToken();
-//			if (val.Type == TokenType.String || val.Type == TokenType.Number)
-//			{
-//				vals.push(val.Lexeme);
-//			}
-//			else
-//			{
-//				throw new ParseError(val,"case 语句 只支持 string和number类型");
-//			}
+			//			var val:Token = ReadToken();
+			//			if (val.Type == TokenType.String || val.Type == TokenType.Number)
+			//			{
+			//				vals.push(val.Lexeme);
+			//			}
+			//			else
+			//			{
+			//				throw new ParseError(val,"case 语句 只支持 string和number类型");
+			//			}
 			vals.push(GetObject(false));
 			ReadColon();
 			if (ReadToken().Type == TokenType.Case) 
@@ -1055,27 +1071,23 @@ package how.as2js.compiler
 		{
 			var exec:CodeExecutable;
 			var ret:CodeTry = new CodeTry();
+			exec = new CodeExecutable(CodeExecutable.Block_Function,executable);
+			ParseStatementBlock(exec);
+			ret.tryExecutable = exec;
+			ReadCatch();
+			ReadLeftParenthesis();
+			ret.identifier = ReadIdentifier();
+			var peek:Token = PeekToken();
+			if (peek.Type == TokenType.Colon)
 			{
-				exec = new CodeExecutable(CodeExecutable.Block_Function,executable);
-				ParseStatementBlock(exec);
-				ret.tryExecutable = exec;
+				ReadToken();
+				ReadToken();
+				peek = PeekToken();
 			}
-			{
-				ReadCatch();
-				ReadLeftParenthesis();
-				ret.identifier = ReadIdentifier();
-				var peek:Token = PeekToken();
-				if (peek.Type == TokenType.Colon)
-				{
-					ReadToken();
-					ReadToken();
-					peek = PeekToken();
-				}
-				ReadRightParenthesis();
-				exec = new CodeExecutable(CodeExecutable.Block_Function,executable);
-				ParseStatementBlock(exec);
-				ret.catchExecutable = exec;
-			}
+			ReadRightParenthesis();
+			exec = new CodeExecutable(CodeExecutable.Block_Function,executable);
+			ParseStatementBlock(exec);
+			ret.catchExecutable = exec;
 			executable.addInstruction(new CodeInstruction(Opcode.CALL_TRY, ret));
 		}		
 		//解析throw
@@ -1163,22 +1175,25 @@ package how.as2js.compiler
 		private function ReadLeftBrace():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.LeftBrace)
+			if (token.Type != TokenType.LeftBrace){
 				throw new ParseError(token,"Left brace '{' expected.");
+			}
 		}
 		
 		/// <summary> 读取} </summary>
 		private function ReadRightBrace():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.RightBrace)
+			if (token.Type != TokenType.RightBrace){
 				throw new ParseError(token,"Right brace '}' expected.");
+			}
 		}
 		/// <summary> 回滚Token </summary>
 		private function UndoToken():void
 		{
-			if (m_iNextToken <= 0)
+			if (m_iNextToken <= 0){
 				throw new ParseError(null,"No more tokens to undo.");
+			}
 			--m_iNextToken;
 		}
 		
@@ -1186,22 +1201,25 @@ package how.as2js.compiler
 		private function ReadClass():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Class)
+			if (token.Type != TokenType.Class){
 				throw new ParseError(token,"Class 'class' expected.");
+			}
 		}
 		//读取 包关键字
 		private function ReadPackage():String
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Package)
+			if (token.Type != TokenType.Package){
 				throw new ParseError(token,"Package 'package' expected.");
+			}
 			return token.Lexeme.toString();
 		}
 		/// <summary> 获得第一个Token </summary>
 		private function ReadToken():Token
 		{
-			if (!HasMoreTokens())
+			if (!HasMoreTokens()){
 				throw new ParseError(null,"Unexpected end of token stream.");
+			}
 			return m_listTokens[m_iNextToken++];
 		}
 		/// <summary> 是否还有更多需要解析的语法 </summary>
@@ -1212,87 +1230,99 @@ package how.as2js.compiler
 		/// <summary> 返回第一个Token </summary>
 		public function PeekToken():Token
 		{
-			if (!HasMoreTokens())
+			if (!HasMoreTokens()){
 				throw new ParseError(null,"Unexpected end of token stream.");
+			}
 			return m_listTokens[m_iNextToken];
 		}
 		/// <summary> 读取 未知字符 </summary>
 		private function ReadIdentifier():String
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Identifier)
+			if (token.Type != TokenType.Identifier){
 				throw new ParseError(token,"Identifier expected.");
+			}
 			return token.Lexeme.toString();
 		}
 		/// <summary> 读取( </summary>
 		private function ReadLeftParenthesis():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.LeftPar)
+			if (token.Type != TokenType.LeftPar){
 				throw new ParseError(token,"Left parenthesis '(' expected.");
+			}
 		}
 		/// <summary> 读取) </summary>
 		private function ReadRightParenthesis():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.RightPar)
+			if (token.Type != TokenType.RightPar){
 				throw new ParseError(token,"Right parenthesis ')' expected.");
+			}
 		}
 		/// <summary> 读取: </summary>
 		private function ReadColon():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Colon)
+			if (token.Type != TokenType.Colon){
 				throw new ParseError(token,"Colon ':' expected.");
+			}
 		}
 		/// <summary> 读取, </summary>
 		private function ReadComma():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Comma)
+			if (token.Type != TokenType.Comma){
 				throw new ParseError(token,"Comma ',' expected.");
+			}
 		}
 		/// <summary> 读取var </summary>
 		private function ReadVar():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Var)
+			if (token.Type != TokenType.Var){
 				throw new ParseError(token,"Var 'var' expected.");
+			}
 		}
 		/// <summary> 读取in </summary>
 		private function ReadIn():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.In)
+			if (token.Type != TokenType.In){
 				throw new ParseError(token,"In 'in' expected.");
+			}
 		}
 		/// <summary> 读取; </summary>
 		private function ReadSemiColon():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.SemiColon)
+			if (token.Type != TokenType.SemiColon){
 				throw new ParseError(token,"SemiColon ';' expected.");
+			}
 		}
 		/// <summary> 读取catch </summary>
 		private function ReadCatch():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.Catch)
+			if (token.Type != TokenType.Catch){
 				throw new ParseError(token,"Catch 'catch' expected.");
+			}
 		}
 		/// <summary> 读取[ </summary>
 		private function ReadLeftBracket():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.LeftBracket)
+			if (token.Type != TokenType.LeftBracket){
 				throw new ParseError(token,"Left bracket '[' expected for array indexing expression.");
+			}
 		}
 		/// <summary> 读取] </summary>
 		private function ReadRightBracket():void
 		{
 			var token:Token = ReadToken();
-			if (token.Type != TokenType.RightBracket)
+			if (token.Type != TokenType.RightBracket){
 				throw new ParseError(token,"Right bracket ']' expected for array indexing expression.");
+			}
 		}
 	}
 }

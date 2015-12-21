@@ -38,6 +38,8 @@ use namespace关键字
 
 ###注意事项
 
+if、else等后面必须带括号
+
 如果继承的是egret或者cocos的类，那么必须加this
 
 文件开头注释中加入@modol 1可设置导出模式，设置@bind true可绑定成员方法的执行上下文为this

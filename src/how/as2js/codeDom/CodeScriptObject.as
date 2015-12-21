@@ -17,9 +17,9 @@ package how.as2js.codeDom
 			else if(object is String)
 			{
 				result = "\""+object+"\"";
-				result = result.replace(/\n/g,"\\n");
-				result = result.replace(/\r/g,"\\r");
-				result = result.replace(/\t/g,"\\t");
+				result = result.replace(new RegExp("/\n/g"),"\\n");
+				result = result.replace(new RegExp("/\r/g"),"\\r");
+				result = result.replace(new RegExp("/\t/g"),"\\t");
 			}
 			else
 			{
