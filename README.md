@@ -14,9 +14,13 @@
 
 转换后：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo(cocos).js
 
-提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1hrsvthq 密码：0e1u
+提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1qX0TrXy
 
-转换教程是新建脚本，再新建布局，加入自定义行为，拖入脚本，勾选属性栏入口，Ctrl+E导出，用文本文档查看代码。
+下面的js脚本是可以直接在js的环境动态执行as3代码。原理很简单，就是把这个库直接转换成js的版本。
+
+这个js脚本是egret模式导出的，可以在egret引擎里面验证效果：https://github.com/qibu111/ActionScriptToOther/blob/master/ActionScriptInJavaScript.js
+
+asInjs库里面需要的Vector类等都需要用egret实现一个相关的类
 
 ----------------------------------------------------------------------------------------------------------------------
 
