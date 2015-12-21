@@ -84,11 +84,11 @@ package how.as2js.codeDom
 			var functionString:String = "";	
 			for (var i:int = 0; i < functions.length; i++) 
 			{
+				functions[i].executable.tempData = tempData;
+				functions[i].isCtor = functions[i].name==name;
+				var funName:String = functions[i].type == CodeFunction.TYPE_GET || functions[i].type == CodeFunction.TYPE_SET?"[\""+functions[i].name+"\"]":"."+functions[i].name;
 				if(!functions[i].IsStatic)
 				{
-					functions[i].executable.tempData = tempData;
-					functions[i].isCtor = functions[i].name==name;
-					var funName:String = functions[i].type == CodeFunction.TYPE_GET || functions[i].type == CodeFunction.TYPE_SET?"[\""+functions[i].name+"\"]":"."+functions[i].name;
 					if(functions[i].isCtor)
 					{
 						functions[i].insertString = toVariable(tabCount+1);
