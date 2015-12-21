@@ -14,7 +14,7 @@
 
 转换后：https://github.com/qibu111/ActionScriptToOther/blob/master/Demo(cocos).js
 
-提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1qX0TrXy
+提供行为IDE来验证实际效果，下载地址：http://pan.baidu.com/s/1i3XvvYd
 
 下面的js脚本是可以直接在js的环境动态执行as3代码。原理很简单，就是把这个库直接转换成js的版本。
 
