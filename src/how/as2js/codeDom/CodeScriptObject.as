@@ -17,9 +17,16 @@ package how.as2js.codeDom
 			else if(object is String)
 			{
 				result = "\""+object+"\"";
-				result = result.replace(new RegExp("/\n/g"),"\\n");
-				result = result.replace(new RegExp("/\r/g"),"\\r");
-				result = result.replace(new RegExp("/\t/g"),"\\t");
+				var stringRegExp:RegExp = new RegExp("(?<=\").*(?=\")","s");
+				var regExpResult:Object = stringRegExp.exec(result);
+				if(regExpResult && regExpResult.length && regExpResult[0].indexOf("\"") != -1)
+				{
+					regExpResult[0] = regExpResult[0].replace(new RegExp("\"","g"),"\\\"");
+					result = "\"" + regExpResult[0] + "\"";
+				}
+				result = result.replace(new RegExp("\n","g"),"\\n");
+				result = result.replace(new RegExp("\r","g"),"\\r");
+				result = result.replace(new RegExp("\t","g"),"\\t");
 			}
 			else
 			{

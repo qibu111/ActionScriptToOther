@@ -249,7 +249,7 @@ package how.as2js.compiler
 							case '@':
 								lexState = LexState.SimpleStringStart;
 								break;
-							case '\"':
+							case "\"":
 								lexState = LexState.String;
 								break;
 							case '\'':
