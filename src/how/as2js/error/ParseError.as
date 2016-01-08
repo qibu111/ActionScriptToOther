@@ -7,7 +7,7 @@ package how.as2js.error
 	{
 		public function ParseError(token:Token,message:String="")
 		{
-			var msg:String = " Line:" + (token.SourceLine+1) + "  Column:" + token.SourceChar + "  Type:" + TokenType.getTypeName(token.Type) + "  value[" + token.Lexeme + "]    " + message;
+			var msg:String = " Line:" + (token.sourceLine+1) + "  Column:" + token.sourceChar + "  Type:" + TokenType.getTypeName(token.type) + "  value[" + token.lexeme + "]    " + message;
 			super(!token?message:msg);
 		}
 	}

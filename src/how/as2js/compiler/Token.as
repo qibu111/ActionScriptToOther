@@ -4,14 +4,14 @@ package how.as2js.compiler
 
 	public class Token
 	{
-		private var _Type:int;
+		private var _type:int;
 
 		/**
 		 * 标记类型
 		 */
-		public function get Type():int
+		public function get type():int
 		{
-			return _Type;
+			return _type;
 		}
 
 		private var _lexeme:Object;
@@ -19,7 +19,7 @@ package how.as2js.compiler
 		/**
 		 * 标记值
 		 */
-		public function get Lexeme():Object
+		public function get lexeme():Object
 		{
 			return _lexeme;
 		}
@@ -29,7 +29,7 @@ package how.as2js.compiler
 		/**
 		 * 所在行
 		 */
-		public function get SourceLine():int
+		public function get sourceLine():int
 		{
 			return _sourceLine;
 		}
@@ -39,21 +39,21 @@ package how.as2js.compiler
 		/**
 		 * 所在列
 		 */
-		public function get SourceChar():int
+		public function get sourceChar():int
 		{
 			return _sourceChar;
 		}
 
 		public function Token(tokenType:int,lexeme:Object, sourceLine:int, sourceChar:int)
 		{
-			this._Type = tokenType;
+			this._type = tokenType;
 			this._lexeme = lexeme;
 			this._sourceLine = sourceLine;
 			this._sourceChar = sourceChar;
 		}
 		public function toString():String
 		{	
-			return TokenType.getTypeName(_Type) + ":" + _lexeme.toString();
+			return TokenType.getTypeName(_type) + ":" + _lexeme.toString();
 		}
 	}
 }
